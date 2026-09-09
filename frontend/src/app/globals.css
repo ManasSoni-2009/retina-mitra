@@ -1,0 +1,506 @@
+@import "tailwindcss";
+
+/* ─── RETINA-MITRA Color Tokens (Replicated from Design Mockup) ─────────────
+ * Dark Elements: #0B1728, #10213E, #1A2E5B (Deep Midnight/Navy Bar & Sidebar)
+ * Active Nav Pill: #3C5880 / linear-gradient(135deg, #385075, #4A6B9B)
+ * Primary CTA Button: linear-gradient(135deg, #1C2E5E, #28448C, #384994)
+ * Secondary Button: #FFFFFF border #CBD5E1 text #0F172A
+ * Background: #F4F7FB / #F8FAFC with luminous sky-blue and periwinkle auras
+ * Cards: #FFFFFF border #E2E8F0 rounded-2xl with soft diffuse elevation
+ * Status Badges:
+ *   - Green: #E6F8F0 border #A7F3D0 text #059669 (No DR / Healthy / Good)
+ *   - Blue: #EFF6FF border #BFDBFE text #2563EB (Reviewed / Excellent)
+ *   - Amber: #FEF6ED border #FDE68A text #D97706 (Mild NPDR / Pending)
+ *   - Red: #FEE2E2 border #FECACA text #DC2626 (Refer / Severe)
+ *   - Purple: #F3F0FA border #DDD6FE text #7C3AED (Uncertain)
+ * ────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --color-dark-navy: #0B1728;
+  --color-dark-oxford: #10213E;
+  --color-nav-active: #3C5880;
+  --color-primary-blue: #384994;
+  --color-accent-blue: #2563EB;
+  --color-bg-base: #F4F7FB;
+  --color-card-bg: #FFFFFF;
+  --color-card-border: #E2E8F0;
+
+  /* Backward-compatible variable aliases */
+  --color-midnight: #0B1728;
+  --color-oxford: #10213E;
+  --color-steel: #3C5880;
+  --color-sage: #059669;
+  --color-sand: #384994;
+  --color-cream: #F4F7FB;
+
+  --bg-primary: #F4F7FB;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+}
+
+/* ─── Base Styles ────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    background-color: #F4F7FB;
+  }
+
+  body {
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    background: #F4F7FB;
+    color: #0F172A;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: #1C2E5E;
+    color: #FFFFFF;
+  }
+}
+
+/* ─── Exact Background Mesh Gradients (From Mockup) ──────────────────────── */
+.mesh-bg {
+  background-color: #F4F7FB;
+  background-image: 
+    radial-gradient(ellipse 70% 50% at 85% 15%, rgba(199, 219, 254, 0.45) 0%, rgba(224, 231, 255, 0.25) 40%, transparent 65%),
+    radial-gradient(ellipse 65% 50% at 15% 25%, rgba(219, 234, 254, 0.40) 0%, transparent 60%),
+    radial-gradient(circle 500px at 68% 32%, rgba(59, 130, 246, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 80% 85%, rgba(209, 250, 229, 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 20% 90%, rgba(224, 231, 255, 0.25) 0%, transparent 60%),
+    linear-gradient(175deg, #FFFFFF 0%, #F5F7FB 45%, #EDF2F8 100%);
+  background-attachment: fixed;
+}
+
+.mesh-bg-dark {
+  background-color: #0B1728;
+  background-image: 
+    radial-gradient(ellipse 70% 55% at 10% 95%, rgba(20, 184, 166, 0.20) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 50% at 90% 15%, rgba(59, 130, 246, 0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(56, 73, 148, 0.20) 0%, transparent 60%),
+    linear-gradient(145deg, #0B1728 0%, #10213E 50%, #0D1B2E 100%);
+}
+
+/* ─── Mockup Cards & Panels ──────────────────────────────────────────────── */
+.glass-panel {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 1.25rem;
+  box-shadow: 
+    0 4px 20px -2px rgba(15, 23, 42, 0.04), 
+    0 2px 6px -1px rgba(15, 23, 42, 0.02);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel:hover {
+  border-color: #CBD5E1;
+  box-shadow: 
+    0 8px 26px -4px rgba(15, 23, 42, 0.07), 
+    0 4px 10px -2px rgba(15, 23, 42, 0.03);
+}
+
+.glass-panel-dark {
+  background: linear-gradient(145deg, #0B1728 0%, #10213E 55%, #152A4E 100%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 1.25rem;
+  box-shadow: 0 16px 36px 0 rgba(11, 23, 40, 0.25);
+  color: #FFFFFF;
+}
+
+.glass-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: #384994;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.08);
+}
+
+.glass-pill {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+  transition: all 0.2s ease;
+}
+
+.glass-pill-dark {
+  background: #3C5880;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(11, 23, 40, 0.2);
+}
+
+/* ─── Typography & Gradients ─────────────────────────────────────────────── */
+.brand-gradient-text {
+  background: linear-gradient(135deg, #0B1728 0%, #1E3A8A 50%, #2563EB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+}
+
+.brand-gradient-blue {
+  background: linear-gradient(135deg, #2563EB 0%, #384994 50%, #4F46E5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.brand-gradient-gold {
+  background: linear-gradient(135deg, #0B1728 0%, #2563EB 50%, #4F46E5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.brand-gradient-sand {
+  background: linear-gradient(135deg, #2563EB 0%, #384994 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Button Styles (Replicated from Design Mockup) ──────────────────────── */
+.btn-sand-primary,
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #1C2E5E 0%, #28448C 50%, #384994 100%);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.875rem;
+  font-family: 'Outfit', sans-serif;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(28, 46, 94, 0.35);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-sand-primary:hover,
+.btn-primary:hover {
+  background: linear-gradient(135deg, #233A75 0%, #3151A6 50%, #4358AE 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8px 22px rgba(28, 46, 94, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-sand-primary:active,
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-oxford-secondary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  color: #0F172A;
+  font-weight: 700;
+  font-size: 0.875rem;
+  font-family: 'Outfit', sans-serif;
+  border: 1px solid #CBD5E1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-oxford-secondary:hover,
+.btn-secondary:hover {
+  background: #F8FAFC;
+  border-color: #94A3B8;
+  color: #0F172A;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.btn-sage-accent,
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.btn-sage-accent:hover,
+.btn-accent:hover {
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
+}
+
+.btn-dark-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: 9999px;
+  background: #13233F;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 14px rgba(19, 35, 63, 0.25);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-dark-pill:hover {
+  background: #1C335A;
+  transform: translateY(-1px);
+}
+
+/* ─── Mockup Status Badges ───────────────────────────────────────────────── */
+.badge-green {
+  background-color: #E6F8F0;
+  border: 1px solid #A7F3D0;
+  color: #059669;
+}
+
+.badge-blue {
+  background-color: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #2563EB;
+}
+
+.badge-amber {
+  background-color: #FEF6ED;
+  border: 1px solid #FDE68A;
+  color: #D97706;
+}
+
+.badge-red {
+  background-color: #FEE2E2;
+  border: 1px solid #FECACA;
+  color: #DC2626;
+}
+
+.badge-purple {
+  background-color: #F3F0FA;
+  border: 1px solid #DDD6FE;
+  color: #7C3AED;
+}
+
+/* ─── Custom Clean Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+
+/* ─── DYNAMIC THEME SYSTEM & ACCESSIBILITY ────────────────────────────────── */
+html[data-font-size="small"] {
+  font-size: 13px !important;
+}
+
+html[data-font-size="medium"] {
+  font-size: 16px !important;
+}
+
+html[data-font-size="large"] {
+  font-size: 19px !important;
+}
+
+/* --- LIGHT THEME TEXT GUARANTEE --- */
+/* Ensure in Light Theme that primary headings, labels, cards, and text are crisp and NEVER washed out or white, EXCEPT when inside dark surfaces */
+html:not(.dark) h1:not(.mesh-bg-dark *):not([class*="bg-[#0B1728]"] *):not([class*="bg-[#10213E]"] *):not(.glass-panel-dark *),
+html:not(.dark) h2:not(.mesh-bg-dark *):not([class*="bg-[#0B1728]"] *):not([class*="bg-[#10213E]"] *):not(.glass-panel-dark *),
+html:not(.dark) h3:not(.mesh-bg-dark *):not([class*="bg-[#0B1728]"] *):not([class*="bg-[#10213E]"] *):not(.glass-panel-dark *),
+html:not(.dark) h4:not(.mesh-bg-dark *):not([class*="bg-[#0B1728]"] *):not([class*="bg-[#10213E]"] *):not(.glass-panel-dark *),
+html:not(.dark) h5:not(.mesh-bg-dark *):not([class*="bg-[#0B1728]"] *):not([class*="bg-[#10213E]"] *):not(.glass-panel-dark *),
+html:not(.dark) h6:not(.mesh-bg-dark *):not([class*="bg-[#0B1728]"] *):not([class*="bg-[#10213E]"] *):not(.glass-panel-dark *) {
+  color: #0B1728;
+}
+
+/* Ensure text on dark elements stays pure white and crisp even in Light Theme */
+.mesh-bg-dark,
+.mesh-bg-dark h1,
+.mesh-bg-dark h2,
+.mesh-bg-dark h3,
+.mesh-bg-dark h4,
+.mesh-bg-dark h5,
+.mesh-bg-dark h6,
+.glass-panel-dark h1,
+.glass-panel-dark h2,
+.glass-panel-dark h3,
+.glass-panel-dark h4,
+.glass-panel-dark h5,
+.glass-panel-dark h6 {
+  color: #FFFFFF !important;
+}
+
+html:not(.dark) .glass-panel,
+html:not(.dark) .glass-card {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+html:not(.dark) p:not(.mesh-bg-dark *):not([class*="bg-[#0B1728]"] *):not([class*="bg-[#10213E]"] *):not(.glass-panel-dark *) {
+  color: #334155;
+}
+
+html:not(.dark) select,
+html:not(.dark) input:not([type="range"]) {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+html:not(.dark) select option {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+/* --- DARK THEME FULL APP INVERSION --- */
+/* Overrides entire web app: body, background, mesh-bg, panels, cards, inputs, tables, headers */
+html.dark,
+html.dark body,
+html.dark main,
+html.dark [class*="min-h-screen"],
+html.dark .mesh-bg,
+html[data-theme="dark"],
+html[data-theme="dark"] body,
+html[data-theme="dark"] main,
+html[data-theme="dark"] .mesh-bg {
+  background-color: #070D18 !important;
+  background-image: 
+    radial-gradient(ellipse 70% 55% at 10% 95%, rgba(20, 184, 166, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 50% at 90% 15%, rgba(59, 130, 246, 0.22) 0%, transparent 60%),
+    linear-gradient(145deg, #070D18 0%, #0B1728 50%, #0D1B2E 100%) !important;
+  color: #F8FAFC !important;
+}
+
+html.dark .glass-panel,
+html[data-theme="dark"] .glass-panel,
+html.dark .glass-card,
+html[data-theme="dark"] .glass-card {
+  background: #0B1728 !important;
+  border-color: #1E293B !important;
+  color: #F8FAFC !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
+}
+
+html.dark header,
+html[data-theme="dark"] header {
+  background-color: rgba(7, 13, 24, 0.95) !important;
+  border-color: #1E293B !important;
+  color: #F8FAFC !important;
+}
+
+html.dark select,
+html[data-theme="dark"] select,
+html.dark input:not([type="range"]),
+html[data-theme="dark"] input:not([type="range"]) {
+  background-color: #10213E !important;
+  border-color: #1E3A8A !important;
+  color: #FFFFFF !important;
+}
+
+html.dark select option,
+html[data-theme="dark"] select option {
+  background-color: #10213E !important;
+  color: #FFFFFF !important;
+}
+
+html.dark p,
+html[data-theme="dark"] p {
+  color: #94A3B8 !important;
+}
+
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6 {
+  color: #FFFFFF !important;
+}
+
+html.dark td,
+html[data-theme="dark"] td {
+  color: #E2E8F0 !important;
+}
+
+html.dark thead,
+html[data-theme="dark"] thead {
+  background-color: #10213E !important;
+  color: #94A3B8 !important;
+  border-color: #1E293B !important;
+}
+
+html.dark tr:hover,
+html[data-theme="dark"] tr:hover {
+  background-color: rgba(16, 33, 62, 0.7) !important;
+}
+
+/* High Contrast Mode */
+html.high-contrast body,
+body.high-contrast {
+  filter: contrast(1.15) !important;
+}
+
+html.high-contrast .glass-panel,
+html.high-contrast .glass-card,
+body.high-contrast .glass-panel,
+body.high-contrast .glass-card {
+  border: 2px solid #0B1728 !important;
+  box-shadow: 0 0 0 1px #0B1728, 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+}
+
+html.dark.high-contrast .glass-panel,
+html.dark.high-contrast .glass-card {
+  border: 2px solid #60A5FA !important;
+  box-shadow: 0 0 0 1px #60A5FA !important;
+}

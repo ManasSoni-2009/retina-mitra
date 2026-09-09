@@ -1,0 +1,30 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isReviewerOrAdmin() {
+      return isAuthenticated() && (request.auth.token.role == 'reviewer' || request.auth.token.role == 'admin' || request.auth.token.role == 'OPHTHALMOLOGIST');
+    }
+
+    // Medical fundus image buckets (strictly protected - never public)
+    match /screenings/{screeningId}/{category}/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Generated clinical referral reports
+    match /reports/{screeningId}/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Block any unauthenticated access to storage
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

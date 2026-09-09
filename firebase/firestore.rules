@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Security Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserRole() {
+      return request.auth.token.role;
+    }
+
+    function isOperator() {
+      return isAuthenticated() && (getUserRole() == 'operator' || getUserRole() == 'PHC_TECHNICIAN');
+    }
+    
+    function isReviewer() {
+      return isAuthenticated() && (getUserRole() == 'reviewer' || getUserRole() == 'OPHTHALMOLOGIST' || getUserRole() == 'admin');
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'admin';
+    }
+
+    // 1. Users Collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // 2. Screenings Collection
+    match /screenings/{screeningId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isOperator() || isReviewer();
+      allow delete: if isAdmin();
+    }
+
+    // 3. Screening Results Collection
+    match /screeningResults/{resultId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isOperator() || isReviewer();
+      allow delete: if isAdmin();
+    }
+
+    // 4. Review Notes Collection
+    match /reviewNotes/{noteId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isReviewer();
+      allow delete: if isAdmin();
+    }
+
+    // 5. Audit Events Collection (Append Only - Non-editable & Non-deletable)
+    match /auditEvents/{eventId} {
+      allow read: if isReviewer() || isAdmin();
+      allow create: if isAuthenticated();
+      allow update, delete: if false; // Audit logs can NEVER be updated or deleted
+    }
+
+    // 6. System Metrics Collection
+    match /systemMetrics/{metricId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+  }
+}
