@@ -1,4 +1,4 @@
-# DrishtiSetu — Explainable Retinal Image Screening & Decision-Support System
+# Retina-Mitra — Explainable Retinal Image Screening & Decision-Support System
 
 [![System Version](https://img.shields.io/badge/System_Version-2.4.0--production-teal.svg)](#)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](#)
@@ -10,10 +10,10 @@
 
 ## 1. Product Positioning & Purpose
 
-**DrishtiSetu** is an explainable retinal image decision-support system designed for diabetic retinopathy (DR) screening. It combines OpenCV computer vision quality assessment, PyTorch machine learning DR severity grading, Grad-CAM and morphological explainability overlays, calibrated uncertainty estimation, and specialist human-in-the-loop (HITL) review workflows.
+**Retina-Mitra** is an explainable retinal image decision-support system designed for diabetic retinopathy (DR) screening. It combines OpenCV computer vision quality assessment, PyTorch machine learning DR severity grading, Grad-CAM and morphological explainability overlays, calibrated uncertainty estimation, and specialist human-in-the-loop (HITL) review workflows.
 
 > ⚠️ **Non-Prescriptive Medical Safety Notice:**  
-> DrishtiSetu is **NOT** a medical diagnostic system and does **NOT** replace an ophthalmologist. It provides calibrated screening decision support and routes complex or uncertain cases to human specialists. All outputs use non-prescriptive terminology (*"Screening result"*, *"Possible signs detected"*, *"Human review recommended"*).
+> Retina-Mitra is **NOT** a medical diagnostic system and does **NOT** replace an ophthalmologist. It provides calibrated screening decision support and routes complex or uncertain cases to human specialists. All outputs use non-prescriptive terminology (*"Screening result"*, *"Possible signs detected"*, *"Human review recommended"*).
 
 ---
 
@@ -105,4 +105,4 @@ npm run build
 
 ## 6. License & Compliance
 
-DrishtiSetu is released under the **MIT License**. Dataset adapters operate under the research licenses of APTOS, IDRiD, DRIVE, and Messidor-2 datasets.
+Retina-Mitra is released under the **MIT License**. Dataset adapters operate under the research licenses of APTOS, IDRiD, DRIVE, and Messidor-2 datasets.
