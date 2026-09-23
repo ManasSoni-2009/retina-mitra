@@ -6,22 +6,23 @@ import { useParams } from 'next/navigation';
 import { useSessionStore } from '@/hooks/useSessionStore';
 import { generateReport } from '@/lib/generateReport';
 import { CanvasImageViewer } from '@/components/CanvasImageViewer';
-import { 
-  ArrowLeft, 
-  Download, 
-  CheckCircle2, 
-  RefreshCw, 
-  XCircle, 
-  Info, 
-  UserCheck, 
-  Activity
+import { sound } from '@/lib/sound';
+import {
+  ArrowLeft,
+  Download,
+  CheckCircle2,
+  XCircle,
+  UserCheck,
+  Activity,
+  ShieldCheck,
+  Eye,
 } from 'lucide-react';
 
 export default function ScreeningDetailPage() {
   const routeParams = useParams();
   const screeningId = (routeParams?.id as string) || '';
   const { getScreenedCase, submitReview, markReportGenerated } = useSessionStore();
-  
+
   const screenedCase = getScreenedCase(screeningId);
   const screening = screenedCase?.screening;
 
@@ -31,43 +32,54 @@ export default function ScreeningDetailPage() {
 
   if (!screenedCase || !screening) {
     return (
-      <main className="min-h-screen bg-[#FFFFFF] pt-28 pb-16 text-[#0B1728]">
-        <div className="max-w-md mx-auto px-4 text-center glass-panel p-8 shadow-2xl">
+      <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)] pt-32 pb-20 px-4 sm:px-8 max-w-lg mx-auto">
+        <div className="p-8 rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] text-center shadow-[6px_6px_0_var(--ink)]">
           <XCircle className="w-12 h-12 text-rose-600 mx-auto mb-4" />
-          <h2 className="text-xl font-black text-[#0B1728] mb-2">Screening Record Not Found</h2>
-          <p className="text-xs text-[#3C5880] mb-6 font-bold">
-            Case ID <span className="font-mono text-[#0B1728]">{screeningId}</span> is not registered in the current session.
+          <h2 className="text-2xl font-bold uppercase tracking-tight">Record Not Found</h2>
+          <p className="font-mono text-xs text-[var(--ink-soft)] my-4">
+            Case ID <span className="font-bold underline">{screeningId}</span> is not registered in the current session.
           </p>
-          <Link href="/screening/new" className="btn-sand-primary">
+          <Link
+            href="/screening/new"
+            onClick={() => sound.playClick()}
+            className="inline-block px-6 py-3 rounded-full bg-[var(--ink)] text-[var(--accent)] font-bold text-xs uppercase shadow-[3px_3px_0_var(--ink)] no-underline"
+          >
             Start New Screening
           </Link>
         </div>
-      </main>
+      </div>
     );
   }
 
   const isUngradable = screening.qualityStatus === 'UNGRADABLE';
-  const isReferable = screening.referable;
-  const gradeLabel = typeof screening.drGrade === 'object' ? screening.drGrade.drGradeLabel : (screening.drGradeLabel || `Grade ${screening.drGrade}`);
+  const gradeLabel =
+    typeof screening.drGrade === 'object'
+      ? screening.drGrade.drGradeLabel
+      : screening.drGradeLabel || `Grade ${screening.drGrade}`;
   const fallbackImg = screening.imageUrl || '/prototype-cases/rm-001/original.jpg';
 
-  const handleReviewAction = (action: 'CONFIRMED' | 'RE_REVIEW' | 'UNGRADABLE' | 'OVERRIDDEN', label: string) => {
+  const handleReviewAction = (
+    action: 'CONFIRMED' | 'RE_REVIEW' | 'UNGRADABLE' | 'OVERRIDDEN',
+    label: string
+  ) => {
+    sound.playClick(850);
     submitReview(screening.screeningId, {
-      reviewerId: 'CLINICIAN-01',
+      reviewerId: 'DR-SPECIALIST-01',
       action,
       comments: reviewerNote || `Clinical action: ${label}`,
       reviewedAt: new Date().toISOString(),
     });
-    setReviewFeedback(`Clinical action registered: ${label}`);
+    setReviewFeedback(`Specialist action registered: ${label}`);
     setTimeout(() => setReviewFeedback(null), 4000);
   };
 
   const handleDownloadPDF = async () => {
+    sound.playClick(950);
     setIsDownloading(true);
     try {
       if (reviewerNote) {
         screening.reviewDecision = {
-          reviewerId: 'CLINICIAN-01',
+          reviewerId: 'DR-SPECIALIST-01',
           action: 'CONFIRMED',
           comments: reviewerNote,
           reviewedAt: new Date().toISOString(),
@@ -83,215 +95,134 @@ export default function ScreeningDetailPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FFFFFF] pb-24 pt-20 text-[#0B1728] relative overflow-hidden">
-      
-      {/* Ambient glass blooms */}
-      <div className="absolute top-10 right-10 w-[500px] h-[500px] bg-gradient-to-br from-[#2563EB]/30 to-[#059669]/25 blur-[130px] rounded-full pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        
-        {/* Navigation Breadcrumb */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)] pt-24 sm:pt-28 pb-28 sm:pb-32 px-4 sm:px-8 max-w-[1400px] mx-auto selection:bg-[var(--ink)] selection:text-[var(--accent)]">
+      {/* ─── BREADCRUMB & HEADER ─── */}
+      <div className="pb-6 border-b-2 border-[var(--ink)] mb-10">
+        <Link
+          href="/dashboard"
+          onClick={() => sound.playClick(600)}
+          className="inline-flex items-center gap-1.5 font-mono text-xs uppercase font-bold text-[var(--ink-soft)] hover:text-[var(--ink)] mb-3 no-underline"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Back to Cockpit</span>
+        </Link>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <Link href="/history" className="inline-flex items-center text-xs font-bold text-[#3C5880] hover:text-[#0B1728] transition-colors mb-1">
-              <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Back to Screening History
-            </Link>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl sm:text-3xl font-black text-[#0B1728] tracking-tight">
-                Case {screening.screeningId}
-              </h1>
-              <span className={`text-xs px-3 py-1 rounded-full font-black uppercase ${
-                isUngradable ? 'bg-rose-100 text-rose-950 border border-rose-300' :
-                isReferable ? 'bg-amber-100 text-amber-950 border border-amber-300' : 'bg-[#059669]/20 text-[#2C402F] border border-[#059669]/40'
-              }`}>
-                {isUngradable ? 'Ungradable Scan' : isReferable ? 'Referable DR' : 'Routine'}
-              </span>
+            <div className="font-mono text-xs uppercase tracking-widest text-[var(--ink-soft)] mb-1">
+              Case Verification · {screening.screeningId}
             </div>
+            <h1 className="text-3xl sm:text-5xl font-extrabold uppercase tracking-tight">
+              {screening.patientAlias || 'Patient Scan'} · {gradeLabel}
+            </h1>
           </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleDownloadPDF}
-              disabled={isDownloading}
-              className="btn-sand-primary text-xs py-2.5 px-6 shadow-xl"
-            >
-              {isDownloading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-              <span>{isDownloading ? 'Generating...' : 'Generate Report (PDF)'}</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleDownloadPDF}
+            disabled={isDownloading}
+            className="w-full sm:w-auto px-6 py-3 sm:py-2.5 rounded-full bg-[var(--ink)] text-[var(--accent)] font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-[4px_4px_0_var(--ink)] min-h-[44px]"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>{isDownloading ? 'Generating...' : 'Export PDF Report'}</span>
+          </button>
         </div>
-
-        {/* Feedback alert toast */}
-        {reviewFeedback && (
-          <div className="p-4 rounded-2xl glass-panel text-[#2C402F] border border-[#059669] text-xs font-black font-mono flex items-center gap-2 shadow-xl animate-fade-in">
-            <CheckCircle2 className="w-4 h-4 text-[#059669]" />
-            <span>{reviewFeedback}</span>
-          </div>
-        )}
-
-        {/* Primary Screening Banner with Frosted Glass Gradient */}
-        <div className={`p-8 rounded-3xl border shadow-2xl backdrop-blur-2xl ${
-          isUngradable
-            ? 'bg-gradient-to-r from-rose-50/95 via-white/90 to-rose-100/60 border-rose-300'
-            : isReferable
-              ? 'bg-gradient-to-r from-white/95 via-[#F8FAFC]/90 to-[#2563EB]/40 border-[#0B1728]'
-              : 'bg-gradient-to-r from-white/95 via-[#059669]/15 to-white/95 border-[#059669]'
-        }`}>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="text-[11px] font-mono font-black uppercase tracking-widest text-[#0B1728]">
-                  Screening Result
-                </span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0B1728]" />
-                <span className="text-[11px] font-mono text-[#3C5880] font-bold">
-                  {screening.patientAlias}
-                </span>
-              </div>
-
-              <h2 className="text-3xl sm:text-4xl font-black text-[#0B1728] tracking-tight">
-                {isUngradable ? 'Ungradable Scan' : gradeLabel}
-              </h2>
-
-              <p className="text-sm font-bold text-[#3C5880]">
-                {isUngradable
-                  ? 'Image focus sharpness below diagnostic threshold. Pupil dilation or re-capture advised.'
-                  : isReferable
-                    ? 'Referable findings identified. Specialist evaluation recommended.'
-                    : 'No DR signs detected. Annual routine screening recommended.'}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Central Two-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Column (7 cols): CanvasImageViewer */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-black text-[#0B1728] tracking-tight">
-                Multi-Modal Visual Evidence
-              </h3>
-              <span className="text-xs font-mono text-[#0B1728] font-black">
-                6 ANALYTIC LAYERS
-              </span>
-            </div>
-
-            <CanvasImageViewer
-              evidence={screening.evidence || {
-                rawImageUrl: fallbackImg,
-                enhancedImageUrl: fallbackImg,
-                vesselMapUrl: fallbackImg,
-                gradcamUrl: fallbackImg,
-                lesionOverlayUrl: fallbackImg,
-                combinedEvidenceUrl: fallbackImg,
-              }}
-            />
-          </div>
-
-          {/* Right Column (5 cols): Details & Specialist Actions */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            {/* Why This Result Box with Frosted Glass */}
-            <div className="p-6 rounded-3xl glass-panel space-y-2 shadow-xl">
-              <div className="flex items-center gap-2 text-[#0B1728] font-black text-xs">
-                <Info className="w-4 h-4 text-[#059669]" />
-                <span className="uppercase tracking-wider">Why this result?</span>
-              </div>
-              <p className="text-xs text-[#3C5880] leading-relaxed font-bold">
-                {isUngradable
-                  ? 'Automated Laplacian variance and illumination filters failed the minimum sharpness criteria, triggering an immediate pre-inference rejection to protect patient safety.'
-                  : isReferable
-                    ? 'Grad-CAM spatial activation localized abnormal vascular changes in the macula and temporal arcade. Microvascular caliber assessment indicates microaneurysms requiring specialist evaluation.'
-                    : 'Clear retinal fundus scan with healthy arteriolar and venular calibers, distinct optic disc margin, and intact foveal reflex. No pathological microaneurysms detected.'}
-              </p>
-            </div>
-
-            {/* Confidence & Quality Gate with Glass Panel */}
-            <div className="p-6 rounded-3xl glass-panel space-y-4 shadow-xl">
-              <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-                <div className="flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-[#0B1728]" />
-                  <h4 className="text-xs font-black text-[#0B1728] uppercase tracking-wider">
-                    Confidence & Quality Gate
-                  </h4>
-                </div>
-                <span className="text-[10px] font-mono font-black text-[#2C402F] bg-[#059669]/20 px-2.5 py-0.5 rounded-full border border-[#059669]/40">
-                  {screening.qualityStatus}
-                </span>
-              </div>
-
-              <div className="space-y-3 text-xs">
-                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-white/90 to-[#F8FAFC]/90 border border-slate-200 flex items-center justify-between shadow-xs">
-                  <span className="text-[#3C5880] font-bold">Confidence Tier</span>
-                  <span className="text-[#0B1728] font-mono font-black">High</span>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-white/90 to-[#F8FAFC]/90 border border-slate-200 flex items-center justify-between shadow-xs">
-                  <span className="text-[#3C5880] font-bold">Center Location</span>
-                  <span className="text-[#0B1728] font-black">{screening.phcCenter}, {screening.district}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Human Review Sign-Off with Frosted Glass */}
-            <div className="p-6 rounded-3xl glass-panel space-y-4 shadow-2xl border-2 border-[#0B1728]">
-              <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-                <div className="flex items-center gap-2 text-[#0B1728]">
-                  <UserCheck className="w-4 h-4" />
-                  <h4 className="text-xs font-black uppercase tracking-wider">
-                    Specialist Clinical Action
-                  </h4>
-                </div>
-                <span className="text-[10px] font-mono text-[#0B1728] font-black">
-                  {screening.reviewStatus}
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                <textarea
-                  value={reviewerNote}
-                  onChange={(e) => setReviewerNote(e.target.value)}
-                  placeholder="Add specialist comments..."
-                  className="w-full h-20 p-3 bg-white/90 border border-slate-200 rounded-2xl text-xs text-[#0B1728] placeholder:text-[#3C5880] focus:outline-none focus:border-[#0B1728] transition resize-none font-semibold shadow-inner"
-                />
-
-                <div className="flex flex-wrap gap-2.5">
-                  <button
-                    onClick={() => handleReviewAction('CONFIRMED', 'Confirmed Grade')}
-                    className="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#059669] to-[#556958] hover:from-[#667A69] hover:to-[#465849] text-[#FFFFFF] font-black text-xs shadow-md transition"
-                  >
-                    Confirm Grade
-                  </button>
-                  <button
-                    onClick={() => handleReviewAction('OVERRIDDEN', 'Clinical Override')}
-                    className="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#0B1728] to-[#10213E] hover:from-[#10213E] hover:to-[#0B1728] text-[#FFFFFF] font-black text-xs shadow-md transition"
-                  >
-                    Override Grade
-                  </button>
-                  <button
-                    onClick={() => handleReviewAction('RE_REVIEW', 'Escalate to Specialist')}
-                    className="py-2.5 px-3 rounded-xl bg-white hover:bg-[#F8FAFC] border border-slate-200 text-[#0B1728] font-black text-xs transition shadow-xs"
-                  >
-                    Escalate
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Disclaimer */}
-            <div className="p-4 rounded-2xl glass-panel text-[11px] text-[#3C5880] space-y-1">
-              <p className="font-black text-[#0B1728]">Clinical Disclaimer</p>
-              <p className="leading-relaxed font-semibold">
-                RETINA-MITRA provides algorithmic decision support. It does not replace clinical diagnosis by a certified ophthalmologist.
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-
       </div>
-    </main>
+
+      {reviewFeedback && (
+        <div className="p-4 rounded-2xl bg-[var(--ok)] text-[var(--ink)] font-bold text-sm border-2 border-[var(--ink)] shadow-[4px_4px_0_var(--ink)] mb-8">
+          {reviewFeedback}
+        </div>
+      )}
+
+      {/* ─── SUMMARY TELEMETRY BENTO ─── */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div className="p-6 rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] shadow-[6px_6px_0_var(--ink)]">
+          <div className="font-mono text-[10px] uppercase text-[var(--ink-mute)] mb-1">
+            ICDR Severity
+          </div>
+          <div className="text-2xl font-extrabold text-[var(--ink)]">{gradeLabel}</div>
+          <div className="font-mono text-xs text-[var(--ink-soft)] mt-1">
+            Confidence: {Math.round((typeof screening.confidence === 'number' ? screening.confidence : screening.confidence.calibratedConfidence || 0.94) * 100)}%
+          </div>
+        </div>
+
+        <div className="p-6 rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] shadow-[6px_6px_0_var(--ink)]">
+          <div className="font-mono text-[10px] uppercase text-[var(--ink-mute)] mb-1">
+            OpenCV Quality Gate
+          </div>
+          <div
+            className={`text-2xl font-extrabold ${
+              isUngradable ? 'text-rose-600' : 'text-[var(--ok)]'
+            }`}
+          >
+            {screening.qualityStatus}
+          </div>
+          <div className="font-mono text-xs text-[var(--ink-soft)] mt-1">
+            Focus variance &gt; threshold
+          </div>
+        </div>
+
+        <div className="p-6 rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] shadow-[6px_6px_0_var(--ink)]">
+          <div className="font-mono text-[10px] uppercase text-[var(--ink-mute)] mb-1">
+            Clinical Recommendation
+          </div>
+          <div className="text-2xl font-extrabold text-[var(--ink)]">
+            {screening.referable ? 'Specialist Referral' : 'Routine Monitoring'}
+          </div>
+          <div className="font-mono text-xs text-[var(--ink-soft)] mt-1">
+            {screening.referable ? 'Specialist referral recommended' : 'Annual follow-up'}
+          </div>
+        </div>
+      </div>
+
+      {/* ─── INTERACTIVE MULTI-LAYER VIEWER ─── */}
+      <div className="mb-8">
+        <CanvasImageViewer
+          evidence={{
+            rawImageUrl: fallbackImg,
+            enhancedImageUrl: screening.evidence?.enhancedImageUrl || fallbackImg,
+            vesselMapUrl: screening.evidence?.vesselMapUrl || fallbackImg,
+            gradcamUrl: screening.evidence?.gradcamUrl || fallbackImg,
+            lesionOverlayUrl: screening.evidence?.lesionOverlayUrl || fallbackImg,
+            combinedEvidenceUrl: screening.evidence?.combinedEvidenceUrl || fallbackImg,
+          }}
+        />
+      </div>
+
+      {/* ─── SPECIALIST REVIEW PANEL ─── */}
+      <div className="p-6 sm:p-8 rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] shadow-[6px_6px_0_var(--ink)] space-y-4">
+        <h3 className="text-xl font-bold uppercase tracking-tight">Specialist Sign-off Station</h3>
+        <input
+          type="text"
+          value={reviewerNote}
+          onChange={(e) => setReviewerNote(e.target.value)}
+          placeholder="Record specialist observations or justification for override..."
+          className="w-full px-4 py-3 rounded-xl border-2 border-[var(--ink)] bg-[var(--bg)] font-mono text-xs text-[var(--ink)] placeholder:text-[var(--ink-mute)] focus:outline-none min-h-[44px]"
+        />
+
+        <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 pt-2">
+          <button
+            type="button"
+            onClick={() => handleReviewAction('CONFIRMED', 'Confirmed Grade')}
+            className="w-full sm:w-auto px-5 py-3 sm:py-2.5 rounded-full border-2 border-[var(--ink)] bg-[var(--ok)] text-[var(--ink)] font-bold text-xs uppercase hover:scale-105 active:scale-95 transition-all shadow-[2px_2px_0_var(--ink)] text-center min-h-[44px]"
+          >
+            ✓ Confirm Classification
+          </button>
+          <button
+            type="button"
+            onClick={() => handleReviewAction('OVERRIDDEN', 'Overridden Grade')}
+            className="w-full sm:w-auto px-5 py-3 sm:py-2.5 rounded-full border-2 border-[var(--ink)] bg-amber-400 text-[var(--ink)] font-bold text-xs uppercase hover:scale-105 active:scale-95 transition-all shadow-[2px_2px_0_var(--ink)] text-center min-h-[44px]"
+          >
+            Override Classification
+          </button>
+          <button
+            type="button"
+            onClick={() => handleReviewAction('UNGRADABLE', 'Flagged Ungradable')}
+            className="w-full sm:w-auto px-5 py-3 sm:py-2.5 rounded-full border-2 border-[var(--ink)] bg-rose-400 text-[var(--ink)] font-bold text-xs uppercase hover:scale-105 active:scale-95 transition-all shadow-[2px_2px_0_var(--ink)] text-center min-h-[44px]"
+          >
+            Request Retake
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

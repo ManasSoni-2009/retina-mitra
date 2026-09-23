@@ -1,402 +1,414 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import {
-  ArrowRight, ShieldCheck, Eye, Zap, Users,
-  Activity, Lock, CheckCircle2, ChevronDown, Star,
-  UserCheck, Brain, Globe
-} from 'lucide-react';
-import { RetinaGlobe } from '@/components/RetinaGlobe';
+import { ArrowRight, Eye, ShieldCheck, Zap, Activity, Users, Lock, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { TactileVisionHero } from '@/components/TactileVisionHero';
+import { StickyStackPipeline } from '@/components/StickyStackPipeline';
+import { DigitalWorkerDeck } from '@/components/DigitalWorkerDeck';
+import { ParallaxCaseGrid } from '@/components/ParallaxCaseGrid';
+import { PhysicsPillBox } from '@/components/PhysicsPillBox';
+import { sound } from '@/lib/sound';
 import { useScrollAnimations } from '@/hooks/useScrollAnimations';
 
-const steps = [
-  {
-    number: '01',
-    title: 'Fundus Photograph Intake',
-    description:
-      'The operator uploads or captures a standard 45° posterior pole retinal scan via optical fundus camera or smartphone attachment.',
-    icon: Eye,
-    gradient: 'from-[#0B1728] to-[#10213E]',
-  },
-  {
-    number: '02',
-    title: 'OpenCV Quality Gate Assessment',
-    description:
-      'Automated Laplacian variance and illumination filters evaluate focus sharpness, macular glare, and field coverage before any AI inference.',
-    icon: ShieldCheck,
-    gradient: 'from-[#10213E] to-[#3C5880]',
-  },
-  {
-    number: '03',
-    title: 'Vascular & Lesion Segmentation',
-    description:
-      'Frangi vessel extraction traces the microvascular caliber while deep segmentation localizes microaneurysms, hemorrhages, and exudates.',
-    icon: Zap,
-    gradient: 'from-[#3C5880] to-[#059669]',
-  },
-  {
-    number: '04',
-    title: 'ICDR Classification & Grad-CAM',
-    description:
-      'Multi-task ensemble computes 5-class DR severity (Grade 0–4) and generates a backward hook Grad-CAM spatial attention heatmap.',
-    icon: Brain,
-    gradient: 'from-[#059669] to-[#2563EB]',
-  },
-  {
-    number: '05',
-    title: 'Temperature-Scaled Confidence',
-    description:
-      'Post-hoc temperature scaling measures epistemic uncertainty, auto-escalating cases below safety thresholds for human verification.',
-    icon: Activity,
-    gradient: 'from-[#0B1728] to-[#3C5880]',
-  },
-  {
-    number: '06',
-    title: 'Human Specialist Confirmation',
-    description:
-      'Ophthalmologist verifies visual findings, signs off or overrides the grade, and exports the official referral PDF slip.',
-    icon: UserCheck,
-    gradient: 'from-[#10213E] to-[#059669]',
-  },
-];
+export default function LandingPage() {
+  const containerRef = useScrollAnimations();
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-const features = [
-  {
-    icon: ShieldCheck,
-    title: 'Quality Gate',
-    body: 'Images are evaluated for blur, illumination, and field coverage before entering the AI pipeline. Ungradable images are flagged before any analysis occurs.',
-    glow: 'rgba(5, 150, 105, 0.25)',
-  },
-  {
-    icon: Eye,
-    title: 'Explainable AI',
-    body: 'Every prediction is accompanied by Grad-CAM attention maps and vessel overlay visualizations, making the AI reasoning visible and auditable.',
-    glow: 'rgba(37, 99, 235, 0.35)',
-  },
-  {
-    icon: Users,
-    title: 'Human-in-the-Loop',
-    body: 'The system never autonomously diagnoses. Specialists receive structured evidence and override AI output with full reason logging and identity tracking.',
-    glow: 'rgba(60, 88, 128, 0.25)',
-  },
-  {
-    icon: Zap,
-    title: 'Low-Connectivity Mode',
-    body: 'Works in rural environments with unreliable connectivity. Screenings queue locally and sync automatically when connectivity is restored.',
-    glow: 'rgba(37, 99, 235, 0.3)',
-  },
-  {
-    icon: Activity,
-    title: 'Epidemiological Analytics',
-    body: 'Real-time cohort telemetry tracks Quality Gate pass rates, population severity distribution, and district specialist referral volumes.',
-    glow: 'rgba(5, 150, 105, 0.25)',
-  },
-  {
-    icon: Lock,
-    title: 'Privacy by Design',
-    body: 'Anonymized patient reference IDs. Encrypted local storage. Role-based Firebase access control. No sensitive data stored without clinical necessity.',
-    glow: 'rgba(11, 23, 40, 0.2)',
-  },
-];
-
-const principles = [
-  {
-    icon: UserCheck,
-    text: 'AI assists. Ophthalmologists decide.',
-  },
-  {
-    icon: ShieldCheck,
-    text: 'No diagnosis without specialist review.',
-  },
-  {
-    icon: Globe,
-    text: 'Built for rural India. Works offline.',
-  },
-  {
-    icon: Lock,
-    text: 'Every action logged. Fully auditable.',
-  },
-];
-
-const statPills = [
-  '77M+ Diabetics in India',
-  'DR Detectable Early',
-  'AI Decision Support',
-  'Human Review Always',
-  'HIPAA-Aware Design',
-  'Offline Ready',
-  'Explainable Predictions',
-  'Decision Support Prototype',
-];
-
-export default function HomePage() {
-  const scrollRef = useScrollAnimations();
+  const toggleFaq = (idx: number) => {
+    sound.playClick(640);
+    setOpenFaq(openFaq === idx ? null : idx);
+  };
 
   return (
-    <div ref={scrollRef} className="mesh-bg min-h-screen text-[#0B1728] pb-20 relative overflow-hidden">
-      
-      {/* Floating ambient luminous orbs */}
-      <div className="absolute top-20 left-10 w-[550px] h-[550px] bg-gradient-to-tr from-[#2563EB]/35 to-[#059669]/25 blur-[130px] rounded-full pointer-events-none -z-10" />
-      <div className="absolute top-[40%] right-[-100px] w-[650px] h-[650px] bg-gradient-to-bl from-[#059669]/30 to-[#3C5880]/20 blur-[150px] rounded-full pointer-events-none -z-10" />
-      <div className="absolute bottom-20 left-1/3 w-[600px] h-[600px] bg-gradient-to-r from-[#2563EB]/30 via-[#059669]/20 to-[#3C5880]/15 blur-[140px] rounded-full pointer-events-none -z-10" />
+    <div
+      ref={containerRef}
+      className="relative w-full bg-[var(--bg)] text-[var(--ink)] overflow-x-hidden selection:bg-[var(--ink)] selection:text-[var(--accent)]"
+    >
+      {/* ─── 1. HERO SECTION (FOCUSED SINGLE VIEWPORT ON PC, ELEGANT STACK ON MOBILE) ─── */}
+      <header
+        id="top"
+        className="relative min-h-[100svh] flex flex-col justify-center px-5 sm:px-12 pt-24 pb-14 sm:py-20 overflow-hidden max-w-[1440px] mx-auto select-none"
+      >
+        {/* Fixed Section Subtle Underglow */}
+        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-white/40 blur-[130px] pointer-events-none" />
 
-      {/* ── HERO ───────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[92vh] flex items-center pt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* Tactile Vision Centerpiece (Desktop: Absolute Right Side, Identical to PC Design) */}
+        <div className="hidden lg:block absolute right-4 lg:right-12 top-1/2 -translate-y-1/2 w-[520px] xl:w-[560px] pointer-events-none z-0 opacity-100 transition-opacity">
+          <TactileVisionHero />
+        </div>
 
-          {/* Left: headline content */}
-          <div className="space-y-8">
-            {/* Frosted Glass Badge */}
-            <div className="glass-pill inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-[#0B1728] text-xs font-mono font-bold tracking-wide hover:shadow-md hover:scale-102 transition-all duration-300 cursor-default">
-              <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#0B1728] to-[#3C5880] animate-pulse" />
-              Retinal Decision Support · Tele-Ophthalmology
-            </div>
-
-            {/* Main headline with multi-stop gradient */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] text-[#0B1728]">
-              See What<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] via-[#384994] to-[#4F46E5]">Matters Most.</span>
-            </h1>
-
-            {/* Sub-headline */}
-            <p className="text-lg text-[#3C5880] leading-relaxed max-w-xl font-bold">
-              RETINA-MITRA screens retinal photographs for early signs of diabetic retinopathy — explaining
-              every result with visual AI evidence and routing uncertain cases to a human specialist.{' '}
-              <strong className="text-[#0B1728] font-black">AI assists. Ophthalmologists decide.</strong>
-            </p>
-
-            {/* CTAs with Gradient Fills */}
-            <div className="flex flex-wrap items-center gap-4">
-              <Link 
-                href="/screening/new" 
-                className="btn-sand-primary text-base py-4 px-8 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 group"
-              >
-                <span>Start a Screening</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
-              </Link>
-              <Link 
-                href="/dashboard" 
-                className="btn-oxford-secondary text-base py-4 px-8 shadow-md hover:shadow-xl hover:scale-105 active:scale-95 hover:border-slate-400 transition-all duration-300 group"
-              >
-                <Activity className="w-4 h-4 text-[#0B1728] group-hover:rotate-12 transition-transform duration-300" />
-                <span>Open Dashboard</span>
-              </Link>
-            </div>
-
-            {/* Principle frosted glass chips */}
-            <div className="flex flex-wrap gap-2.5 pt-2">
-              {principles.map(({ icon: Icon, text }) => (
-                <div
-                  key={text}
-                  className="glass-pill flex items-center gap-2 px-4 py-2 rounded-full text-xs text-[#0B1728] font-bold hover:-translate-y-0.5 hover:shadow-md hover:border-emerald-300/80 transition-all duration-200 cursor-default"
-                >
-                  <Icon className="w-3.5 h-3.5 text-[#059669] shrink-0" />
-                  {text}
-                </div>
-              ))}
-            </div>
+        {/* Circular Spinning Badge (Positioned near hero text on tablet/desktop) */}
+        <div
+          data-magnetic=""
+          className="absolute left-[38%] md:left-[40%] lg:left-[42%] xl:left-[43%] top-[33%] sm:top-[34%] lg:top-[35%] -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 pointer-events-none z-20 hidden md:block"
+        >
+          <div className="absolute inset-0 animate-[spin_16s_linear_infinite]">
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+              <defs>
+                <path id="circlePath" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
+              </defs>
+              <text className="font-mono text-[8px] tracking-[2.2px] uppercase fill-[var(--ink)] font-bold">
+                <textPath href="#circlePath" startOffset="0">
+                  ✦ ZERO DEMO MODE ✦ REAL TELEMEDICINE ✦
+                </textPath>
+              </text>
+            </svg>
           </div>
-
-          {/* Right: animated retinal globe */}
-          <div className="flex justify-center lg:justify-end">
-            <div className="relative w-72 h-72 sm:w-96 sm:h-96 lg:w-[460px] lg:h-[460px]">
-              <RetinaGlobe className="w-full h-full" />
-
-              {/* Floating glassmorphic annotation badges */}
-              <div
-                className="float-badge absolute -top-4 -left-8 sm:-left-12 px-4 py-3 rounded-2xl glass-panel text-xs font-black text-[#2C402F] flex items-center gap-2.5 shadow-2xl hover:scale-105 hover:border-emerald-400 transition-all duration-300 cursor-default"
-                style={{ animationDelay: '0s' }}
-              >
-                <span className="w-2.5 h-2.5 rounded-full bg-[#059669] animate-pulse" />
-                Quality Gate Passed
-              </div>
-
-              <div
-                className="float-badge absolute top-1/4 -right-6 sm:-right-10 px-4 py-3 rounded-2xl bg-gradient-to-r from-[#0B1728] via-[#10213E] to-[#3C5880] text-[#FFFFFF] shadow-2xl text-xs font-black flex items-center gap-2.5 border border-slate-200 hover:scale-105 hover:border-blue-400 transition-all duration-300 cursor-default"
-                style={{ animationDelay: '1.5s' }}
-              >
-                <Eye className="w-4 h-4 text-[#2563EB]" />
-                AI Analyzing…
-              </div>
-
-              <div
-                className="float-badge absolute -bottom-4 right-4 px-4 py-3 rounded-2xl glass-panel text-xs font-black text-[#0B1728] flex items-center gap-2.5 shadow-2xl hover:scale-105 hover:border-emerald-400 transition-all duration-300 cursor-default"
-                style={{ animationDelay: '3s' }}
-              >
-                <UserCheck className="w-4 h-4 text-[#059669]" />
-                Specialist Review
-              </div>
-            </div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[var(--ink)] text-[var(--accent)] border border-white/40 flex items-center justify-center shadow-md">
+              <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--accent)]" />
+            </span>
           </div>
         </div>
 
-        {/* Scroll cue */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[#3C5880] text-xs font-bold hover:text-[#0B1728] transition-colors cursor-pointer">
-          <span>Scroll to explore</span>
-          <ChevronDown className="w-4 h-4 animate-bounce text-[#0B1728]" />
+        {/* Eyebrow Status Pill */}
+        <div className="relative z-10 font-mono text-[10px] sm:text-xs tracking-[0.16em] uppercase mb-4 flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-[var(--ink)] animate-pulse" />
+          <span className="font-bold">Explainable Retinal AI — OpenCV · PyTorch · HITL</span>
         </div>
-      </section>
 
-      {/* ── STAT PILLS: HORIZONTAL ARRANGEMENT ───────────────────────────────── */}
-      <div className="border-y border-slate-200 dark:border-slate-800 bg-gradient-to-r from-white/80 via-[#F8FAFC]/90 to-white/80 dark:from-[#080E1A]/80 dark:via-[#0D1829]/90 dark:to-[#080E1A]/80 backdrop-blur-xl py-4 shadow-sm">
-        <div className="flex flex-wrap items-center justify-center gap-3 max-w-7xl mx-auto px-4">
-          {statPills.map((pill, i) => (
-            <div
-              key={i}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#10213E]/90 border border-slate-200/90 dark:border-slate-700/80 shadow-2xs text-xs font-bold text-[#0B1728] dark:text-white hover:-translate-y-0.5 hover:shadow-md hover:border-emerald-400/70 hover:scale-103 transition-all duration-200 cursor-default select-none"
+        {/* Scaled Kinetic Headline (fits perfectly on 1 screen on PC, wraps gracefully on mobile) */}
+        <h1 className="relative z-10 text-[clamp(2.1rem,6.8vw,6.4rem)] font-extrabold tracking-[-0.045em] leading-[0.9] max-w-[13ch] uppercase mb-6">
+          <span className="block">Screening that</span>
+          <span className="block">actually</span>
+          <span className="block relative inline-block">
+            protects vision.
+            <svg
+              viewBox="0 0 340 120"
+              preserveAspectRatio="none"
+              className="absolute -left-[5%] -top-[12%] w-[112%] h-[126%] overflow-visible pointer-events-none"
             >
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#059669] shrink-0" />
-              <span>{pill}</span>
-            </div>
-          ))}
+              <path
+                d="M30 64 C70 18 270 14 310 52 C330 70 300 104 180 110 C70 116 8 96 16 62 C22 36 72 26 130 26"
+                fill="none"
+                stroke="var(--ink)"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+            </svg>
+          </span>
+        </h1>
+
+        {/* Action Row & Lead Statement */}
+        <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 mt-2">
+          <Link
+            href="/screening/new"
+            onClick={() => sound.playClick(900)}
+            className="w-full sm:w-auto text-center inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:py-4 rounded-full bg-[var(--ink)] text-[var(--accent)] text-sm sm:text-base font-extrabold tracking-tight hover:scale-105 active:scale-95 transition-all shadow-[5px_5px_0_var(--ink)] no-underline"
+            data-cursor-label="INTAKE"
+          >
+            <span>Intake Retinal Scan</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <p className="max-w-md text-xs sm:text-sm font-semibold leading-relaxed text-[var(--ink-soft)]">
+            A production-ready decision-support system for diabetic retinopathy. Zero fake demo databases. Calibrated uncertainty. Specialists sign off before any referral slip is issued.
+          </p>
+        </div>
+
+        {/* Mobile Tactile Vision Centerpiece Showcase (Cleanly stacked below CTA for rich mobile visual) */}
+        <div className="lg:hidden relative w-full max-w-[360px] sm:max-w-md mx-auto mt-10 z-10">
+          <TactileVisionHero />
+        </div>
+      </header>
+
+      {/* ─── 2. COMPACT MARQUEE RIBBON ─── */}
+      <div className="bg-[var(--ink)] text-[var(--accent)] py-3.5 overflow-hidden border-y-2 border-[var(--ink)] select-none">
+        <div className="flex whitespace-nowrap font-extrabold text-base sm:text-xl tracking-tight animate-[marquee_22s_linear_infinite]">
+          <span className="mx-4">✦ OPENCV QUALITY GATE</span>
+          <span className="mx-4">✦ 5-CLASS ICDR GRADING</span>
+          <span className="mx-4">✦ GRAD-CAM ATTENTION MAPS</span>
+          <span className="mx-4">✦ FRANGI VESSEL EXTRACTION</span>
+          <span className="mx-4">✦ EPISTEMIC UNCERTAINTY</span>
+          <span className="mx-4">✦ SPECIALIST OVERRIDE WORKSPACE</span>
+          <span className="mx-4">✦ BILINGUAL REPORTS (EN/MR)</span>
+          <span className="mx-4">✦ ZERO DEMO MODE</span>
+          <span className="mx-4">✦ OPENCV QUALITY GATE</span>
+          <span className="mx-4">✦ 5-CLASS ICDR GRADING</span>
+          <span className="mx-4">✦ GRAD-CAM ATTENTION MAPS</span>
+          <span className="mx-4">✦ FRANGI VESSEL EXTRACTION</span>
         </div>
       </div>
 
-      {/* ── HOW IT WORKS: 6-STEP SCREENING PIPELINE ──────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center space-y-3 mb-16">
-          <div className="glass-pill inline-flex items-center gap-2 px-4 py-2 rounded-full text-[#0B1728] text-xs font-mono font-bold tracking-wide shadow-sm hover:scale-102 hover:shadow-md transition-all duration-300">
-            <Star className="w-3.5 h-3.5 text-[#059669]" />
-            End-to-End Diagnostic Architecture
-          </div>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#0B1728] tracking-tight">
-            The Complete Screening Pipeline
-          </h2>
-          <p className="text-[#3C5880] max-w-2xl mx-auto text-base font-semibold leading-relaxed">
-            From raw fundus photograph to ophthalmologist sign-off — every single stage explained in transparent clinical detail.
-          </p>
-        </div>
+      {/* ─── 3. EDITORIAL STATEMENT (BALANCED PROPORTIONS) ─── */}
+      <section
+        id="about"
+        className="relative bg-[var(--paper)] py-20 sm:py-28 lg:py-32 px-6 sm:px-12 border-b-2 border-[var(--ink)] overflow-hidden"
+      >
+        {/* Fixed subtle underglow */}
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[var(--accent)]/20 blur-[130px] pointer-events-none" />
 
-        {/* 6 Steps Grid with Glassmorphic Gradient Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
-          {steps.map(({ number, title, description, icon: Icon, gradient }) => (
-            <div key={number} className="relative group">
-              <div className="p-7 h-full glass-panel flex flex-col justify-between space-y-5 transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:border-blue-400/50">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className={`p-3.5 rounded-2xl bg-gradient-to-br ${gradient} text-[#FFFFFF] shadow-xl shadow-[#0B1728]/20 border border-white/30 group-hover:scale-110 group-hover:rotate-2 transition-transform duration-300`}>
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <span className="text-4xl font-black font-mono text-[#2563EB]/40 group-hover:text-[#2563EB] transition-colors duration-300 select-none">
-                      {number}
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-black text-[#0B1728] mb-2 group-hover:text-blue-600 transition-colors duration-200">
-                      {title}
-                    </h3>
-                    <p className="text-xs text-[#3C5880] leading-relaxed font-semibold">
-                      {description}
-                    </p>
-                  </div>
-                </div>
-                <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-[11px] font-mono text-[#0B1728]">
-                  <span className="font-bold text-slate-500 group-hover:text-[#0B1728] transition-colors">Stage {number} of 06</span>
-                  <span className="font-black text-[#2C402F] bg-[#059669]/15 px-2.5 py-0.5 rounded-full border border-[#059669]/30 group-hover:bg-[#059669]/25 group-hover:border-[#059669]/50 transition-all">Verified ✓</span>
-                </div>
+        <div className="relative z-10 max-w-[1320px] w-full mx-auto">
+          <div className="gsap-reveal max-w-3xl mb-12 sm:mb-16">
+            <div className="font-mono text-[11px] tracking-[0.16em] uppercase text-[var(--ink-soft)] mb-2 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[var(--ink)]" />
+              What We Do
+            </div>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.04em] text-[var(--ink)] leading-[0.94] uppercase mb-4">
+              We don't build<br />black-box AI.
+            </h2>
+            <p className="text-base sm:text-lg font-semibold text-[var(--ink)] leading-relaxed">
+              Retina-Mitra is built specifically for public health screenings and tele-ophthalmology in high-volume, low-resource settings. Every inference is backed by auditable visual evidence.
+            </p>
+          </div>
+
+          {/* 3 Bento Pillar Cards */}
+          <div className="gsap-card-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="gsap-card p-7 rounded-3xl border-2 border-[var(--ink)] bg-[var(--bg)] shadow-[5px_5px_0_var(--ink)] flex flex-col justify-between">
+              <div>
+                <span className="w-11 h-11 rounded-2xl bg-[var(--ink)] text-[var(--accent)] flex items-center justify-center mb-4">
+                  <ShieldCheck className="w-6 h-6" />
+                </span>
+                <h3 className="text-xl font-bold uppercase tracking-tight mb-2">Automated Quality Gate</h3>
+                <p className="text-xs sm:text-sm text-[var(--ink-soft)] font-medium leading-relaxed">
+                  Evaluates focus variance, illumination range, and macular glare before ML inference, halting blurry scans at the intake gate.
+                </p>
+              </div>
+              <div className="mt-6 font-mono text-[11px] text-[var(--ink)] font-bold uppercase">
+                → Laplacian Focus &gt; 100.0
               </div>
             </div>
-          ))}
+
+            <div className="gsap-card p-7 rounded-3xl border-2 border-[var(--ink)] bg-[var(--bg)] shadow-[5px_5px_0_var(--ink)] flex flex-col justify-between">
+              <div>
+                <span className="w-11 h-11 rounded-2xl bg-[var(--ink)] text-[var(--accent)] flex items-center justify-center mb-4">
+                  <Eye className="w-6 h-6" />
+                </span>
+                <h3 className="text-xl font-bold uppercase tracking-tight mb-2">Multi-Layer Explainability</h3>
+                <p className="text-xs sm:text-sm text-[var(--ink-soft)] font-medium leading-relaxed">
+                  Grad-CAM backward-hook attention heatmaps and Frangi vessel segmentation make neural decisions visible and verifiable.
+                </p>
+              </div>
+              <div className="mt-6 font-mono text-[11px] text-[var(--ink)] font-bold uppercase">
+                → 6 Interactive Visual Layers
+              </div>
+            </div>
+
+            <div className="gsap-card p-7 rounded-3xl border-2 border-[var(--ink)] bg-[var(--bg)] shadow-[5px_5px_0_var(--ink)] flex flex-col justify-between">
+              <div>
+                <span className="w-11 h-11 rounded-2xl bg-[var(--ink)] text-[var(--accent)] flex items-center justify-center mb-4">
+                  <Users className="w-6 h-6" />
+                </span>
+                <h3 className="text-xl font-bold uppercase tracking-tight mb-2">Specialist Oversight</h3>
+                <p className="text-xs sm:text-sm text-[var(--ink-soft)] font-medium leading-relaxed">
+                  Specialists sign off or override classifications with full reason logging, generating bilingual official referral slips.
+                </p>
+              </div>
+              <div className="mt-6 font-mono text-[11px] text-[var(--ink)] font-bold uppercase">
+                → English &amp; Marathi Reports
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── FEATURES BENTO WITH FROSTED GLASS & GLOW ──────────────────────────── */}
-      <section className="py-24 bg-gradient-to-b from-white/40 via-[#F8FAFC]/60 to-white/40 border-y border-slate-200 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-3 mb-16">
-            <div className="glass-pill inline-flex items-center gap-2 px-4 py-2 rounded-full text-[#0B1728] text-xs font-mono font-bold tracking-wide shadow-sm hover:scale-102 hover:shadow-md transition-all duration-300">
-              <Zap className="w-3.5 h-3.5 text-[#0B1728]" />
-              Platform Capabilities
+      {/* ─── 4. STICKY-STACK PIPELINE (4 CARDS) ─── */}
+      <StickyStackPipeline />
+
+      {/* ─── 5. DIGITAL CLINICAL WORKER DECK ─── */}
+      <DigitalWorkerDeck />
+
+      {/* ─── 6. VERIFIED CLINICAL CASES SHOWCASE ─── */}
+      <ParallaxCaseGrid />
+
+      {/* ─── 7. STATS BAND (DARK SECTION WITH FIXED SUBTLE GLOW) ─── */}
+      <section
+        data-dark=""
+        className="relative bg-[var(--ink)] text-[var(--accent)] py-16 sm:py-24 px-6 sm:px-12 border-t-2 border-[var(--ink)] overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-radial from-[var(--accent)]/15 via-transparent to-transparent pointer-events-none" />
+
+        <div className="relative z-10 max-w-[1320px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
+          <div className="gsap-counter">
+            <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">94.2%</div>
+            <div className="font-mono text-[11px] sm:text-xs text-[#CFCFC4] uppercase tracking-wider mt-2">
+              Quality Gate Pass Ratio
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black text-[#0B1728] tracking-tight">
-              Built for the Real World.
+          </div>
+          <div className="gsap-counter">
+            <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">0.038</div>
+            <div className="font-mono text-[11px] sm:text-xs text-[#CFCFC4] uppercase tracking-wider mt-2">
+              Calibration Error (ECE)
+            </div>
+          </div>
+          <div className="gsap-counter">
+            <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">&lt;180ms</div>
+            <div className="font-mono text-[11px] sm:text-xs text-[#CFCFC4] uppercase tracking-wider mt-2">
+              GPU Inference Latency
+            </div>
+          </div>
+          <div className="gsap-counter">
+            <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">100%</div>
+            <div className="font-mono text-[11px] sm:text-xs text-[#CFCFC4] uppercase tracking-wider mt-2">
+              Specialist Audit Logging
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── 8. PHYSICS TOOLKIT SANDBOX ─── */}
+      <section
+        id="toolkit"
+        className="relative bg-[var(--bg)] py-20 sm:py-28 lg:py-32 px-6 sm:px-12 border-t-2 border-[var(--ink)] overflow-hidden"
+      >
+        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-white/25 blur-[130px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-[1320px] w-full mx-auto">
+          <div className="gsap-reveal flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+            <div>
+              <div className="font-mono text-[11px] tracking-[0.16em] uppercase text-[var(--ink-soft)] mb-1">
+                ( Medical &amp; Inference Architecture )
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.04em] text-[var(--ink)] leading-none uppercase">
+                Our Clinical Toolkit
+              </h2>
+            </div>
+            <div className="font-mono text-xs uppercase tracking-wider text-[var(--ink-soft)] font-bold flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[var(--ink)] animate-pulse" />
+              Drag &amp; throw — every component runs in live inference
+            </div>
+          </div>
+          <PhysicsPillBox />
+        </div>
+      </section>
+
+      {/* ─── 9. CLINICAL FAQ ACCORDION ─── */}
+      <section
+        id="faq"
+        className="relative bg-[var(--paper)] py-20 sm:py-28 lg:py-32 px-6 sm:px-12 border-t-2 border-[var(--ink)] overflow-hidden"
+      >
+        <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[var(--accent)]/20 blur-[130px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-[1000px] w-full mx-auto">
+          <div className="gsap-reveal mb-8 sm:mb-12">
+            <div className="font-mono text-[11px] tracking-[0.16em] uppercase text-[var(--ink-soft)] mb-1">
+              ( Questions? Answered )
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.04em] text-[var(--ink)] uppercase">
+              Clinical &amp; System FAQ
             </h2>
-            <p className="text-[#3C5880] max-w-xl mx-auto text-base font-semibold leading-relaxed">
-              Every feature exists because screening in rural India demands it.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map(({ icon: Icon, title, body, glow }) => {
-              return (
+          <div className="gsap-faq-group border-t-[2.5px] border-[var(--ink)]">
+            {[
+              {
+                id: '01',
+                q: 'Is Retina-Mitra an autonomous diagnostic system?',
+                a: 'No. Retina-Mitra is strictly an explainable clinical decision-support system. It is non-prescriptive, flags borderline uncertainty, and requires specialist verification before clinical actions or patient slips are finalized.',
+              },
+              {
+                id: '02',
+                q: 'How does the OpenCV Quality Gate prevent diagnostic errors?',
+                a: 'Before any machine learning model sees a scan, automated filters measure focus variance (Laplacian sharpness), illumination distribution, contrast, and field coverage. Out-of-focus or glare-ruined scans are rejected at the gate, preventing false negatives.',
+              },
+              {
+                id: '03',
+                q: 'How does temperature scaling improve patient safety?',
+                a: 'Standard neural networks output uncalibrated probabilities that frequently express high confidence on ambiguous cases. Temperature scaling calibrates probabilities against empirical ground truth, and cases with confidence below 70% automatically trigger mandatory specialist review.',
+              },
+              {
+                id: '04',
+                q: 'Can this platform run in rural clinics with poor connectivity?',
+                a: 'Yes. Retina-Mitra uses local IndexedDB offline sync queues. Screenings and telemetry are stored safely on the operator laptop and synchronize with the specialist hospital cloud as soon as cellular or broadband connectivity is restored.',
+              },
+            ].map((faq, idx) => (
+              <div
+                key={faq.id}
+                className="gsap-faq-item border-b-[2px] border-[var(--ink)] py-5 sm:py-6 transition-colors duration-200"
+              >
                 <div
-                  key={title}
-                  className="glass-panel p-7 group cursor-default transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-slate-300"
-                  style={{
-                    boxShadow: `0 10px 30px 0 ${glow}, inset 0 1px 1px 0 rgba(255, 255, 255, 0.9)`,
-                  }}
+                  data-faq-q=""
+                  onClick={() => toggleFaq(idx)}
+                  className="group cursor-pointer flex justify-between items-center gap-6 select-none"
+                  data-cursor-label={openFaq === idx ? 'CLOSE' : 'EXPAND'}
                 >
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-3 rounded-2xl bg-gradient-to-br from-[#0B1728] via-[#10213E] to-[#3C5880] text-[#FFFFFF] shadow-lg group-hover:scale-110 group-hover:shadow-blue-500/20 transition-all duration-300">
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <h3 className="text-base font-black text-[#0B1728] group-hover:text-blue-600 transition-colors duration-200">
-                        {title}
-                      </h3>
-                    </div>
-                    <p className="text-xs text-[#3C5880] leading-relaxed font-bold">
-                      {body}
+                  <div className="flex items-center gap-3 sm:gap-5">
+                    <span className="font-mono text-xs font-bold text-[var(--ink-mute)] group-hover:text-[var(--ink)] transition-colors">
+                      ({faq.id})
+                    </span>
+                    <span className="text-lg sm:text-2xl font-bold tracking-tight text-[var(--ink)] group-hover:translate-x-1.5 transition-transform duration-200">
+                      {faq.q}
+                    </span>
+                  </div>
+
+                  <span
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-[var(--ink)] flex items-center justify-center shrink-0 transition-all duration-300 shadow-[2px_2px_0_var(--ink)] ${
+                      openFaq === idx
+                        ? 'bg-[var(--ink)] text-[var(--accent)] rotate-45 scale-105'
+                        : 'bg-[var(--paper)] text-[var(--ink)] group-hover:bg-[var(--ink)] group-hover:text-[var(--accent)] group-hover:scale-105'
+                    }`}
+                  >
+                    <span className="text-xl sm:text-2xl font-black leading-none -mt-0.5">
+                      +
+                    </span>
+                  </span>
+                </div>
+
+                {/* Buttery Smooth CSS Grid Accordion Transition */}
+                <div
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    openFaq === idx
+                      ? 'grid-rows-[1fr] opacity-100 mt-3 sm:mt-4'
+                      : 'grid-rows-[0fr] opacity-0 mt-0 pointer-events-none'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="text-sm sm:text-base text-[var(--ink-soft)] font-semibold leading-relaxed max-w-2xl pl-0 sm:pl-11 pb-1">
+                      {faq.a}
                     </p>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── CLINICAL DISCLAIMER BAND ─────────────────────────────────────────── */}
-      <section className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="glass-panel p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center gap-6 shadow-2xl hover:shadow-3xl hover:border-slate-300 transition-all duration-300 group">
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-[#0B1728] to-[#10213E] text-[#2563EB] shrink-0 shadow-xl group-hover:scale-105 transition-transform duration-300">
-            <UserCheck className="w-8 h-8" />
+      {/* ─── 10. GIANT CALL TO ACTION & FOOTER ─── */}
+      <section
+        id="contact"
+        className="relative bg-[var(--bg)] py-20 sm:py-28 lg:py-32 px-6 sm:px-12 border-t-2 border-[var(--ink)] overflow-hidden"
+      >
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-white/30 blur-[140px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-[1320px] w-full mx-auto flex flex-col justify-between">
+          <div className="gsap-reveal mb-16">
+            <h2 className="text-[clamp(2.6rem,8.5vw,7.8rem)] font-extrabold tracking-[-0.05em] leading-[0.88] uppercase mb-8 text-[var(--ink)]">
+              Protect vision.<br />Screen now.
+            </h2>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                href="/screening/new"
+                onClick={() => sound.playClick(900)}
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-[var(--ink)] text-[var(--accent)] font-extrabold text-base sm:text-lg tracking-tight shadow-[5px_5px_0_var(--ink)] hover:scale-105 active:scale-95 transition-all no-underline"
+                data-cursor-label="SCREEN"
+              >
+                <span>Launch Screening Intake</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+
+              <Link
+                href="/dashboard"
+                onClick={() => sound.playClick(720)}
+                className="inline-flex items-center gap-2 px-7 py-4 rounded-full border-2 border-[var(--ink)] bg-[var(--paper)] text-[var(--ink)] font-bold text-base hover:scale-105 active:scale-95 transition-all no-underline shadow-[4px_4px_0_var(--ink)]"
+                data-cursor-label="COCKPIT"
+              >
+                <span>Clinical Cockpit →</span>
+              </Link>
+            </div>
           </div>
-          <div className="flex-1 space-y-1">
-            <h3 className="text-lg font-black text-[#0B1728]">Decision Support — Not Autonomous Diagnosis</h3>
-            <p className="text-xs text-[#3C5880] leading-relaxed max-w-2xl font-bold">
-              RETINA-MITRA is a decision-support tool. It does <strong>not</strong> replace an ophthalmologist.
-              All screening results with referable or uncertain findings are escalated to a qualified specialist
-              for review before any clinical action is taken. The system cannot and does not diagnose autonomously.
-            </p>
-          </div>
-        </div>
-      </section>
 
-      {/* ── DARK CTA FOOTER (BOLD DARK GLASS ACCENT) ─────────────────────────── */}
-      <section className="py-24 mesh-bg-dark text-[#FFFFFF] overflow-hidden relative rounded-t-[3.5rem] shadow-2xl border-t border-[#3C5880]/40">
-        <div className="relative max-w-3xl mx-auto px-4 text-center space-y-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-slate-200 text-xs font-mono font-bold text-[#2563EB] shadow-lg backdrop-blur-xl hover:bg-white/15 hover:scale-105 transition-all duration-300 cursor-default">
-            <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
-            Ready when you are
-          </div>
+          {/* Fluid Large Brand Mark & Bottom Credits */}
+          <div className="border-t border-[var(--ink)]/20 pt-8">
+            <div className="text-[clamp(2.8rem,13vw,12.5rem)] font-extrabold tracking-[-0.05em] leading-[0.8] select-none text-transparent stroke-2 [-webkit-text-stroke:2px_var(--ink)] hover:text-[var(--ink)] transition-colors duration-500">
+              retina-mitra*
+            </div>
 
-          <h2 className="text-5xl sm:text-6xl font-black tracking-tight leading-tight text-white">
-            Screen Your First<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] to-[#384994]">Retinal Image.</span>
-          </h2>
-
-          <p className="text-[#FFFFFF]/80 text-base max-w-lg mx-auto leading-relaxed font-semibold">
-            Upload a fundus photograph, see the AI analysis with visual explanations,
-            and route it to a specialist queue in seconds.
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/screening/new"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#2563EB] via-[#E3D7C1] to-[#C4B498] hover:from-[#E3D7C1] hover:to-[#2563EB] text-[#0B1728] rounded-2xl font-black text-sm shadow-2xl shadow-[#2563EB]/30 transition-all duration-300 hover:scale-105 active:scale-95 group"
-            >
-              <span>Start Screening Now</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
-            </Link>
-            <Link 
-              href="/dashboard"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 text-[#FFFFFF] rounded-2xl font-bold text-sm border border-white/20 shadow-lg backdrop-blur-xl transition-all duration-300 hover:scale-105 active:scale-95 hover:border-white/40"
-            >
-              Open Dashboard
-            </Link>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mt-6 font-mono text-[11px] sm:text-xs text-[var(--ink-soft)] font-medium">
+              <div>© Retina-Mitra Tele-Ophthalmology. Non-prescriptive clinical decision support.</div>
+              <div>Autonomous Retinal AI Network · Rural Clinical Decision Support Hub</div>
+            </div>
           </div>
         </div>
       </section>

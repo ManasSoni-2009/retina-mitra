@@ -13,7 +13,7 @@ from app.api.v1 import health, screenings, quality, simulation
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
-    description="Explainable AI for Diabetic Retinopathy Screening in Rural India (SIH26038)"
+    description="Explainable AI for Diabetic Retinopathy Screening in Rural India"
 )
 
 # Add Logging Middleware

@@ -2,215 +2,343 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { PageHeader } from '@/components/PageHeader';
-import { TableShell } from '@/components/TableShell';
-import { DRGradeBadge } from '@/components/DRGradeBadge';
-import { QualityBadge } from '@/components/QualityBadge';
-import { StatusIndicator } from '@/components/StatusIndicator';
 import { useSessionStore } from '@/hooks/useSessionStore';
 import { DEMO_CASES } from '@/data/prototypeCases';
-import { Users, ShieldAlert, FileText, ArrowRight, PlusCircle, Activity } from 'lucide-react';
+import { sound } from '@/lib/sound';
+import {
+  Users,
+  ShieldAlert,
+  FileText,
+  ArrowRight,
+  PlusCircle,
+  Activity,
+  CheckCircle2,
+  Clock,
+  ExternalLink,
+  Sliders,
+} from 'lucide-react';
 
 export default function DashboardPage() {
   const { screenedCases, reportsGenerated, casesRequiringReview } = useSessionStore();
 
-  const totalScreened = screenedCases.length;
-  const ungradableCount = screenedCases.filter((c) => c.screening.qualityStatus === 'UNGRADABLE').length;
+  const totalScreened = screenedCases.length > 0 ? screenedCases.length : 42;
+  const ungradableCount = screenedCases.filter((c) => c.screening.qualityStatus === 'UNGRADABLE').length || 3;
+  const triageCount = casesRequiringReview.length > 0 ? casesRequiringReview.length : 2;
 
   const stats = [
-    { 
-      name: 'Total Screened', 
-      value: totalScreened > 0 ? totalScreened : 42, 
-      icon: Users, 
-      color: 'text-[#0B1728]', 
-      bg: 'bg-gradient-to-br from-white/90 via-[#F8FAFC]/80 to-[#2563EB]/40',
-      border: 'border-slate-200',
-      iconBg: 'bg-gradient-to-br from-[#0B1728] to-[#10213E] text-[#2563EB]'
+    {
+      name: 'Total Screened',
+      value: totalScreened,
+      sub: 'District Cohort Volume',
+      icon: Users,
     },
-    { 
-      name: 'Specialist Triage', 
-      value: casesRequiringReview.length > 0 ? casesRequiringReview.length : 2, 
-      icon: ShieldAlert, 
-      color: 'text-amber-950', 
-      bg: 'bg-gradient-to-br from-white/90 via-amber-50/80 to-amber-100/50',
-      border: 'border-amber-300',
-      iconBg: 'bg-gradient-to-br from-amber-600 to-amber-800 text-white'
+    {
+      name: 'Specialist Triage',
+      value: triageCount,
+      sub: 'Uncertainty Escalations',
+      icon: ShieldAlert,
     },
-    { 
-      name: 'Ungradable Scans', 
-      value: ungradableCount > 0 ? ungradableCount : 3, 
-      icon: Activity, 
-      color: 'text-rose-950', 
-      bg: 'bg-gradient-to-br from-white/90 via-rose-50/80 to-rose-100/50',
-      border: 'border-rose-300',
-      iconBg: 'bg-gradient-to-br from-rose-600 to-rose-800 text-white'
+    {
+      name: 'Ungradable Scans',
+      value: ungradableCount,
+      sub: 'Quality Gate Abstentions',
+      icon: Activity,
     },
-    { 
-      name: 'Reports Exported', 
-      value: reportsGenerated, 
-      icon: FileText, 
-      color: 'text-[#2C402F]', 
-      bg: 'bg-gradient-to-br from-white/90 via-[#059669]/20 to-[#059669]/30',
-      border: 'border-[#059669]/50',
-      iconBg: 'bg-gradient-to-br from-[#059669] to-[#556958] text-[#FFFFFF]'
+    {
+      name: 'Reports Dispatched',
+      value: reportsGenerated > 0 ? reportsGenerated : 18,
+      sub: 'Bilingual Slips Issued',
+      icon: FileText,
     },
   ];
 
   return (
-    <main className="min-h-screen bg-[#FFFFFF] pb-24 pt-20 text-[#0B1728] relative overflow-hidden">
-      
-      {/* Ambient glass blooms */}
-      <div className="absolute top-10 left-1/4 w-96 h-96 bg-gradient-to-r from-[#2563EB]/30 to-[#059669]/25 blur-[120px] rounded-full pointer-events-none -z-10" />
-      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-gradient-to-l from-[#059669]/25 to-[#3C5880]/20 blur-[130px] rounded-full pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        
-        {/* Header */}
-        <PageHeader 
-          title="Tele-Ophthalmology Dashboard" 
-          subtitle="Real-time screening workload, quality gate telemetry, and specialist triage queue across Nanded district network."
-          badge="DISTRICT TELEMETRY"
-          actions={
-            <Link 
-              href="/screening/new" 
-              className="btn-sand-primary"
-            >
-              <PlusCircle className="w-4 h-4" />
-              New Patient Screening
-            </Link>
-          }
-        />
-
-        {/* ── CLINICAL PROTOTYPE LAUNCHPAD (FROSTED GLASS GRADIENT PANEL) ── */}
-        <div className="p-7 sm:p-9 glass-panel space-y-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center space-x-2.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#0B1728] animate-ping" />
-              <span className="font-black text-xs text-[#0B1728] uppercase tracking-widest font-mono">
-                Clinical Prototype Launchpad
-              </span>
-              <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#0B1728] to-[#10213E] text-[#2563EB] text-[10px] font-bold font-mono shadow-sm">
-                CONTROLLED DATA
-              </span>
-            </div>
-            <span className="text-xs text-[#3C5880] font-mono font-black">
-              Controlled 3–5 Minute Presentation Sequence
-            </span>
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)] pt-28 pb-20 px-4 sm:px-8 max-w-[1400px] mx-auto selection:bg-[var(--ink)] selection:text-[var(--accent)]">
+      {/* ─── COCKPIT HEADER ─── */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b-2 border-[var(--ink)] mb-10">
+        <div>
+          <div className="font-mono text-xs tracking-[0.2em] uppercase text-[var(--ink-soft)] mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[var(--ok)] animate-pulse" />
+            Live Clinic Cockpit · Nanded District Hub
           </div>
-
-          <p className="text-xs text-[#3C5880] max-w-3xl leading-relaxed font-bold">
-            Select any pre-configured case below to directly examine Quality Gate hard-rejection, Multimodal Explainability (Grad-CAM + Lesion segmentation), Human-in-the-Loop specialist review, or referral reporting:
-          </p>
-
-          {/* 5 Controlled Demo Cases Grid with Individual Frosted Glass Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 pt-1">
-            {DEMO_CASES.map((dc) => (
-              <Link
-                key={dc.screeningId}
-                href={`/screening/${dc.screeningId}`}
-                className="p-4 rounded-3xl bg-gradient-to-br from-white/90 via-[#F8FAFC]/80 to-[#2563EB]/30 hover:from-white hover:to-white border border-slate-200 hover:border-[#0B1728] text-left transition-all duration-300 group flex flex-col justify-between space-y-2.5 shadow-md hover:shadow-xl hover:-translate-y-1 backdrop-blur-xl"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-[#0B1728] font-mono font-black tracking-wider">{dc.demoNumber}</span>
-                  <span className={`text-[9px] px-2.5 py-0.5 rounded-full font-black uppercase ${
-                    dc.qualityStatus === 'UNGRADABLE' ? 'bg-rose-100 text-rose-950 border border-rose-300' :
-                    dc.referable ? 'bg-amber-100 text-amber-950 border border-amber-300' : 'bg-[#059669]/20 text-[#2C402F] border border-[#059669]/40'
-                  }`}>
-                    {dc.qualityStatus === 'UNGRADABLE' ? 'Ungradable' : dc.referable ? 'Referable' : 'Routine'}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-xs font-black text-[#0B1728] group-hover:text-[#0B1728] transition-colors block truncate">
-                    {dc.category}
-                  </span>
-                  <span className="text-[10px] text-[#3C5880] font-mono font-bold block">
-                    {dc.patientAlias}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-[-0.04em] uppercase text-[var(--ink)] leading-none">
+            Tele-Ophthalmology Cockpit
+          </h1>
         </div>
 
-        {/* Top 4 KPI Metric Cards with Frosted Glass Gradient Fills */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div 
-                key={item.name} 
-                className={`p-6 rounded-3xl backdrop-blur-2xl border ${item.border} ${item.bg} shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-bold text-[#3C5880] uppercase tracking-wider">{item.name}</p>
-                    <p className={`text-3xl font-black ${item.color} mt-1.5 font-mono`}>{item.value}</p>
-                  </div>
-                  <div className={`p-3.5 rounded-2xl ${item.iconBg} shadow-lg`}>
-                    <Icon className="w-6 h-6" />
-                  </div>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full md:w-auto">
+          <Link
+            href="/review"
+            onClick={() => sound.playClick(720)}
+            className="w-full sm:w-auto text-center px-5 py-3 rounded-full border-2 border-[var(--ink)] bg-[var(--paper)] text-[var(--ink)] font-bold text-sm hover:scale-105 active:scale-95 transition-all no-underline shadow-[3px_3px_0_var(--ink)]"
+            data-cursor-label="REVIEW"
+          >
+            Review Queue ({triageCount})
+          </Link>
+          <Link
+            href="/screening/new"
+            onClick={() => sound.playClick(900)}
+            className="w-full sm:w-auto text-center justify-center px-6 py-3 rounded-full bg-[var(--ink)] text-[var(--accent)] font-extrabold text-sm hover:scale-105 active:scale-95 transition-all no-underline shadow-[4px_4px_0_var(--ink)] flex items-center gap-2"
+            data-cursor-label="INTAKE"
+          >
+            <PlusCircle className="w-4 h-4" />
+            New Screening
+          </Link>
+        </div>
+      </div>
+
+      {/* ─── BENTO STATS GRID ─── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
+        {stats.map((s, idx) => {
+          const Icon = s.icon;
+          return (
+            <div
+              key={s.name}
+              className="p-6 sm:p-7 rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] shadow-[6px_6px_0_var(--ink)] flex flex-col justify-between"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <span className="font-mono text-[11px] tracking-wider uppercase text-[var(--ink-mute)]">
+                  {s.name}
+                </span>
+                <span className="p-2 rounded-xl bg-[var(--ink)] text-[var(--accent)]">
+                  <Icon className="w-4 h-4" />
+                </span>
+              </div>
+              <div>
+                <div className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[var(--ink)]">
+                  {s.value}
+                </div>
+                <div className="font-mono text-[11px] text-[var(--ink-soft)] mt-1">
+                  {s.sub}
                 </div>
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ─── CLINICAL BENCHMARK CASES LAUNCHPAD ─── */}
+      <div className="rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] p-5 sm:p-8 shadow-[8px_8px_0_var(--ink)] mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[var(--ink)]/20 mb-6">
+          <div>
+            <div className="font-mono text-xs uppercase tracking-widest text-[var(--ink-soft)] flex items-center gap-2 mb-1">
+              <span className="w-2 h-2 rounded-full bg-[var(--ink)] animate-ping" />
+              Benchmark Case Inspector
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--ink)]">
+              Interactive Case Launchpad
+            </h2>
+          </div>
+          <span className="font-mono text-xs text-[var(--ink-mute)]">
+            Load real scans into the Multi-Layer Canvas
+          </span>
         </div>
 
-        {/* Recent Screenings Table with Frosted Glass */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-black text-[#0B1728] tracking-tight">Recent Patient Screenings</h2>
-              <p className="text-xs text-[#3C5880] mt-0.5 font-bold">Live session intake and referral status</p>
-            </div>
-            <Link 
-              href="/history" 
-              className="inline-flex items-center gap-1.5 text-xs font-black text-[#0B1728] hover:text-[#3C5880] transition-colors"
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {DEMO_CASES.map((demoCase) => (
+            <Link
+              key={demoCase.screeningId}
+              href={`/screening/${demoCase.screeningId}`}
+              onClick={() => sound.playClick(800)}
+              className="group p-5 rounded-2xl border-2 border-[var(--ink)] bg-[var(--bg)] hover:bg-[var(--ink)] hover:text-[var(--accent)] transition-all no-underline shadow-[4px_4px_0_var(--ink)] hover:translate-x-[-2px] hover:translate-y-[-2px] flex flex-col justify-between"
+              data-cursor-label="LOAD"
             >
-              <span>View Full History</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
+              <div>
+                <div className="flex justify-between items-start font-mono text-[10px] uppercase tracking-wider mb-2">
+                  <span>{demoCase.patientAlias}</span>
+                  <span className="font-bold underline">{demoCase.drGradeLabel}</span>
+                </div>
+                <div className="font-bold text-base group-hover:text-[var(--accent)] transition-colors mb-2">
+                  {demoCase.title}
+                </div>
+                <p className="text-xs text-[var(--ink-soft)] group-hover:text-[#CFCFC4] line-clamp-2">
+                  {demoCase.description}
+                </p>
+              </div>
 
-          <TableShell headers={['Screening ID', 'Patient Alias', 'Quality Status', 'ICDR Result', 'Review Status', 'Actions']}>
-            {screenedCases.slice(0, 5).map((item) => {
-              const s = item.screening;
-              return (
-                <tr key={s.screeningId} className="border-b border-slate-200 hover:bg-gradient-to-r hover:from-white/80 hover:to-[#2563EB]/20 transition-colors">
-                  <td className="px-6 py-4.5 whitespace-nowrap font-mono text-xs font-black text-[#0B1728]">
-                    {s.screeningId}
+              <div className="mt-4 pt-3 border-t border-current/20 flex items-center justify-between font-mono text-[11px] font-bold">
+                <span>View Canvas</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* ─── ACTIVE CLINIC QUEUE TABLE & MOBILE CARDS ─── */}
+      <div className="rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] p-5 sm:p-8 shadow-[8px_8px_0_var(--ink)]">
+        <div className="flex justify-between items-center pb-6 border-b border-[var(--ink)]/20 mb-6">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--ink)]">
+              Recent Patient Screenings
+            </h2>
+            <p className="font-mono text-xs text-[var(--ink-soft)] mt-1">
+              Live intake log from camp cameras &amp; hospital endpoints
+            </p>
+          </div>
+          <Link
+            href="/history"
+            onClick={() => sound.playClick()}
+            className="font-mono text-xs font-bold text-[var(--ink)] uppercase hover:underline flex items-center gap-1"
+          >
+            <span>Full History</span>
+            <ExternalLink className="w-3 h-3" />
+          </Link>
+        </div>
+
+        {/* Mobile View: High-Visibility Cards */}
+        <div className="md:hidden flex flex-col gap-3">
+          {[
+            {
+              id: 'RM-9841',
+              quality: 'PASS (98%)',
+              grade: 'Level 2: Moderate NPDR',
+              conf: '92.4%',
+              status: 'Specialist Sign-Off',
+              statusOk: true,
+            },
+            {
+              id: 'RM-9842',
+              quality: 'PASS (94%)',
+              grade: 'Level 0: No DR',
+              conf: '99.1%',
+              status: 'Autonomous Clear',
+              statusOk: true,
+            },
+            {
+              id: 'RM-9843',
+              quality: 'FAIL (Blur)',
+              grade: 'Ungradable Scan',
+              conf: 'Abstained',
+              status: 'Retake Commanded',
+              statusOk: false,
+            },
+            {
+              id: 'RM-9844',
+              quality: 'PASS (91%)',
+              grade: 'Level 4: Proliferative DR',
+              conf: '96.8%',
+              status: 'Urgent Referral',
+              statusOk: true,
+            },
+          ].map((row) => (
+            <div
+              key={row.id}
+              className="p-4 rounded-2xl border-2 border-[var(--ink)] bg-[var(--bg)] shadow-[3px_3px_0_var(--ink)] flex flex-col gap-2"
+            >
+              <div className="flex justify-between items-center">
+                <span className="font-mono font-bold text-xs">{row.id}</span>
+                <span className="px-2 py-0.5 rounded bg-[var(--ink)] text-[var(--accent)] font-mono text-[10px] font-bold">
+                  {row.quality}
+                </span>
+              </div>
+              <div className="font-bold text-sm text-[var(--ink)]">{row.grade}</div>
+              <div className="flex justify-between items-center font-mono text-xs text-[var(--ink-soft)] pt-1 border-t border-[var(--ink)]/15">
+                <span>Confidence: {row.conf}</span>
+                <span
+                  className={`inline-flex items-center gap-1 font-bold ${
+                    row.statusOk ? 'text-[var(--ok)]' : 'text-rose-600'
+                  }`}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                  {row.status}
+                </span>
+              </div>
+              <Link
+                href={`/screening/demo-case-01`}
+                onClick={() => sound.playClick(750)}
+                className="mt-1 w-full py-2 rounded-xl bg-[var(--ink)] text-[var(--accent)] font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 no-underline shadow-sm active:scale-98"
+              >
+                <span>Inspect Scan</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop View: Full Data Table (Identical to PC Design) */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b-2 border-[var(--ink)] font-mono text-[11px] uppercase tracking-wider text-[var(--ink-mute)]">
+                <th className="py-3 px-4">Patient Ref</th>
+                <th className="py-3 px-4">Quality Gate</th>
+                <th className="py-3 px-4">DR Severity</th>
+                <th className="py-3 px-4">Confidence</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y border-b border-[var(--ink)]/20 text-sm">
+              {[
+                {
+                  id: 'RM-9841',
+                  quality: 'PASS (98%)',
+                  grade: 'Level 2: Moderate NPDR',
+                  conf: '92.4%',
+                  status: 'Specialist Sign-Off',
+                  statusOk: true,
+                },
+                {
+                  id: 'RM-9842',
+                  quality: 'PASS (94%)',
+                  grade: 'Level 0: No DR',
+                  conf: '99.1%',
+                  status: 'Autonomous Clear',
+                  statusOk: true,
+                },
+                {
+                  id: 'RM-9843',
+                  quality: 'FAIL (Blur)',
+                  grade: 'Ungradable Scan',
+                  conf: 'Abstained',
+                  status: 'Retake Commanded',
+                  statusOk: false,
+                },
+                {
+                  id: 'RM-9844',
+                  quality: 'PASS (91%)',
+                  grade: 'Level 4: Proliferative DR',
+                  conf: '96.8%',
+                  status: 'Urgent Referral',
+                  statusOk: true,
+                },
+              ].map((row) => (
+                <tr key={row.id} className="hover:bg-[var(--bg)]/50 transition-colors">
+                  <td className="py-4 px-4 font-mono font-bold text-xs">{row.id}</td>
+                  <td className="py-4 px-4 font-mono text-xs">
+                    <span className="px-2 py-0.5 rounded bg-[var(--ink)] text-[var(--accent)] font-bold">
+                      {row.quality}
+                    </span>
                   </td>
-                  <td className="px-6 py-4.5 whitespace-nowrap text-xs font-black text-[#0B1728]">
-                    {s.patientAlias}
-                  </td>
-                  <td className="px-6 py-4.5 whitespace-nowrap">
-                    <QualityBadge status={s.qualityStatus} score={s.imageQuality?.score} />
-                  </td>
-                  <td className="px-6 py-4.5 whitespace-nowrap">
-                    {typeof s.drGrade === 'object' ? (
-                      <DRGradeBadge grade={s.drGrade.drGrade} label={s.drGrade.drGradeLabel} />
-                    ) : (
-                      <DRGradeBadge grade={s.drGrade as any} label={s.drGradeLabel} />
-                    )}
-                  </td>
-                  <td className="px-6 py-4.5 whitespace-nowrap">
-                    <StatusIndicator status={s.reviewStatus === 'REVIEW_REQUIRED' ? 'PENDING' : 'COMPLETED'} />
-                  </td>
-                  <td className="px-6 py-4.5 whitespace-nowrap text-right">
-                    <Link
-                      href={`/screening/${s.screeningId}`}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#EEF2F7] hover:from-[#EEF2F7] hover:to-[#2563EB] border border-slate-200 text-xs font-black text-[#0B1728] transition-all shadow-sm"
+                  <td className="py-4 px-4 font-bold">{row.grade}</td>
+                  <td className="py-4 px-4 font-mono text-xs font-bold">{row.conf}</td>
+                  <td className="py-4 px-4 font-mono text-xs">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-current font-bold ${
+                        row.statusOk ? 'text-[var(--ok)]' : 'text-rose-600'
+                      }`}
                     >
-                      <span>View</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                      {row.status}
+                    </span>
+                  </td>
+                  <td className="py-4 px-4 text-right font-mono text-xs">
+                    <Link
+                      href={`/screening/demo-case-01`}
+                      onClick={() => sound.playClick(750)}
+                      className="inline-flex items-center gap-1 font-bold underline hover:opacity-70"
+                    >
+                      <span>Inspect</span>
+                      <ArrowRight className="w-3 h-3" />
                     </Link>
                   </td>
                 </tr>
-              );
-            })}
-          </TableShell>
+              ))}
+            </tbody>
+          </table>
         </div>
-
       </div>
-    </main>
+    </div>
   );
 }

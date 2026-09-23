@@ -36,8 +36,8 @@
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/drishtisetu/drishtisetu.git
-cd drishtisetu
+git clone https://github.com/ManasSoni-2009/retina-mitra.git
+cd retina-mitra
 ```
 
 ### Step 2: Start Backend (FastAPI & PyTorch)
