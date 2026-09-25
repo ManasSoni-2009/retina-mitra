@@ -47,7 +47,7 @@ export default function DashboardPage() {
     {
       name: 'Reports Dispatched',
       value: reportsGenerated > 0 ? reportsGenerated : 18,
-      sub: 'Bilingual Slips Issued',
+      sub: 'Referral Slips Issued',
       icon: FileText,
     },
   ];

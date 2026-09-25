@@ -381,7 +381,7 @@ function ScreeningInner() {
             }}
           />
 
-          {/* Specialist HITL Actions & Bilingual Export Bar */}
+          {/* Specialist HITL Actions & Clinical Export Bar */}
           <div className="p-6 sm:p-8 rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] shadow-[6px_6px_0_var(--ink)] space-y-6">
             <div>
               <h3 className="text-lg font-bold uppercase tracking-tight">
@@ -436,7 +436,7 @@ function ScreeningInner() {
                 data-cursor-label="PDF"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>{isDownloading ? 'Exporting...' : 'Export Bilingual PDF (EN/MR)'}</span>
+                <span>{isDownloading ? 'Exporting...' : 'Export Referral PDF (English)'}</span>
               </button>
             </div>
           </div>

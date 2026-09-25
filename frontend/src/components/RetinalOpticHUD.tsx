@@ -156,14 +156,14 @@ export function RetinalOpticHUD() {
           {/* Internal HUD Telemetry Data */}
           <div className="absolute top-4 left-6 font-mono text-[9px] sm:text-[10px] text-[var(--accent)] tracking-wider uppercase font-bold drop-shadow">
             <div>FOV: 45° POSTERIOR</div>
-            <div className="text-white/80">LATENCY: &lt;180ms GPU</div>
+            <div className="text-white/80">LATENCY: FAST PIPELINE</div>
           </div>
 
           <div className="absolute bottom-4 right-6 text-right font-mono text-[9px] sm:text-[10px] text-[var(--accent)] tracking-wider uppercase font-bold drop-shadow">
             <div>ICDR 5-CLASS ENGINE</div>
             <div className="text-[var(--ok)] flex items-center justify-end gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--ok)] animate-pulse" />
-              QUALITY: PASS (98%)
+              QUALITY: PASS (GRADABLE)
             </div>
           </div>
         </div>

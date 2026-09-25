@@ -31,7 +31,7 @@ const CASES: ClinicalCase[] = [
     icdrGrade: 'Grade 2 (Moderate)',
     confidence: 'Moderate',
     finding: 'Circinate hard exudate rings temporal to fovea with microaneurysms.',
-    tags: ['Macular Edema Risk', 'Calibrated', 'Bilingual Slip'],
+    tags: ['Macular Edema Risk', 'Calibrated', 'Referral Slip'],
     gradient: 'from-[#141B10] via-[#1F2C18] to-[#0E0E0C]',
   },
   {

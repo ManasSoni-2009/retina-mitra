@@ -20,7 +20,7 @@ const PILLS: PillItem[] = [
   { id: '6', label: 'Confidence Calibration', variant: 'accent', dot: true },
   { id: '7', label: 'Automated Uncertainty Triage', variant: 'paper' },
   { id: '8', label: 'Human Specialist Oversight', variant: 'accent', dot: true },
-  { id: '9', label: 'Bilingual Referral Slips (EN / MR)', variant: 'paper' },
+  { id: '9', label: 'Clinical Referral Slips (English)', variant: 'paper' },
   { id: '10', label: 'Rural Low-Connectivity Sync', variant: 'outline' },
   { id: '11', label: 'Capture → Check → Screen → Review', variant: 'accent' },
   { id: '12', label: 'Offline-First Local Storage', variant: 'paper' },

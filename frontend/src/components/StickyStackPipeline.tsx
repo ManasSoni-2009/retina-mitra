@@ -224,30 +224,30 @@ export function StickyStackPipeline() {
           <div className="relative bg-[var(--ink)] text-[var(--accent)] rounded-3xl p-5 sm:p-6 min-h-[260px] max-h-[360px] sm:aspect-[4/3] flex flex-col justify-between overflow-hidden shadow-2xl">
             <div className="flex items-center justify-between font-mono text-[10px] text-[var(--accent)] tracking-wider">
               <span>UNCERTAINTY &amp; TRIAGE ROUTER</span>
-              <span className="text-[var(--ok)]">CALIBRATED</span>
+              <span className="text-[var(--ok)]">STATUS: VERIFIED</span>
             </div>
 
             <div className="relative flex-1 flex flex-col items-center justify-center my-2">
-              <div className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[var(--accent)] mb-0.5">
-                92.4<span className="text-xl">%</span>
+              <div className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--accent)] mb-0.5 uppercase">
+                High Certainty
               </div>
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#CFCFC4]">
-                Calibrated Confidence Score
+                Triage Certainty State
               </div>
               <div className="w-full max-w-xs mt-4 h-2.5 rounded-full bg-[var(--accent)]/20 overflow-hidden relative">
-                <div className="h-full bg-[var(--accent)] rounded-full w-[92.4%]" />
-                <div className="absolute top-0 bottom-0 left-[70%] w-[2px] bg-red-400" title="Abstain threshold" />
+                <div className="h-full bg-[var(--accent)] rounded-full w-[85%]" />
+                <div className="absolute top-0 bottom-0 left-[60%] w-[2px] bg-amber-400" title="Specialist Escalation Boundary" />
               </div>
               <div className="flex justify-between w-full max-w-xs mt-1 font-mono text-[8px] text-[#8F8F80]">
-                <span>0%</span>
-                <span className="text-red-400">70% Threshold</span>
-                <span>100%</span>
+                <span>Borderline / Review</span>
+                <span className="text-amber-400 font-bold">Review Boundary</span>
+                <span className="text-[var(--accent)]">High Certainty</span>
               </div>
             </div>
 
             <div className="p-2 rounded-xl bg-[var(--accent)]/10 text-[var(--accent)] font-mono text-[10px] flex items-center justify-between">
-              <span>Status: Screening Confidence Clear</span>
-              <span className="text-[var(--ok)] font-bold">Passed Threshold</span>
+              <span>Status: Above Escalation Cutoff</span>
+              <span className="text-[var(--ok)] font-bold">Passed For Review</span>
             </div>
           </div>
         </div>
@@ -276,18 +276,18 @@ export function StickyStackPipeline() {
               <span className="w-8 h-[2px] bg-[var(--accent)]" />
             </div>
             <div className="font-mono text-[11px] tracking-[0.14em] uppercase text-[#8F8F80] mb-2">
-              ( Specialist Sign-Off · Audit Trail · Bilingual Referral )
+              ( Specialist Sign-Off · Audit Trail · Referral Dispatch )
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.035em] text-white leading-[0.96] mb-3">
               Specialist Human Verification
             </h2>
             <p className="text-sm sm:text-base text-[#CFCFC4] leading-relaxed max-w-[480px] mb-4">
-              The AI assists; ophthalmologists decide. Human specialists receive pre-processed multi-layer evidence to sign off or override diagnoses with mandatory reason logging, exporting bilingual referral documents.
+              The AI assists; ophthalmologists decide. Human specialists receive pre-processed multi-layer evidence to sign off or override diagnoses with mandatory reason logging, exporting structured clinical referral documents.
             </p>
             <div className="font-mono text-[11px] text-[var(--accent)] space-y-1 mb-4">
               <div>→ Specialist Sign-Off or Reasoned Override</div>
               <div>→ Full Audit Trail &amp; Identity Tracking</div>
-              <div>→ Bilingual Patient Slip (English / Marathi)</div>
+              <div>→ Standard Clinical Referral Slip (English)</div>
               <div>→ Direct Print &amp; PDF Clinical Export</div>
             </div>
             <div>

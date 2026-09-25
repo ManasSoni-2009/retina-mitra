@@ -72,22 +72,7 @@ export default function LandingPage() {
         <h1 className="relative z-10 text-[clamp(2.1rem,6.8vw,6.4rem)] font-extrabold tracking-[-0.04em] leading-[0.9] max-w-[13ch] uppercase mb-6">
           <span className="block">Screening that</span>
           <span className="block">actually</span>
-          <span className="block relative inline-block">
-            protects vision.
-            <svg
-              viewBox="0 0 340 120"
-              preserveAspectRatio="none"
-              className="absolute -left-[5%] -top-[12%] w-[112%] h-[126%] overflow-visible pointer-events-none"
-            >
-              <path
-                d="M30 64 C70 18 270 14 310 52 C330 70 300 104 180 110 C70 116 8 96 16 62 C22 36 72 26 130 26"
-                fill="none"
-                stroke="var(--ink)"
-                strokeWidth="4"
-                strokeLinecap="round"
-              />
-            </svg>
-          </span>
+          <span className="block">protects vision.</span>
         </h1>
 
         {/* Action Row & Lead Statement */}
@@ -122,7 +107,7 @@ export default function LandingPage() {
           <span className="mx-4">✦ CONFIDENCE CALIBRATION</span>
           <span className="mx-4">✦ SPECIALIST OVERSIGHT WORKSPACE</span>
           <span className="mx-4">✦ LOW-CONNECTIVITY OFFLINE SYNC</span>
-          <span className="mx-4">✦ BILINGUAL REFERRAL SLIPS (EN/MR)</span>
+          <span className="mx-4">✦ CLINICAL REFERRAL DOCUMENTATION (EN)</span>
         </div>
       </div>
 
@@ -187,7 +172,7 @@ export default function LandingPage() {
                 </span>
                 <h3 className="text-xl font-bold uppercase tracking-tight mb-2">Specialist Review &amp; Refer</h3>
                 <p className="text-xs sm:text-sm text-[var(--ink-soft)] font-medium leading-relaxed">
-                  Clinicians and ophthalmologists verify or override outcomes with full audit trails, generating bilingual (English &amp; Marathi) referral documentation.
+                  Clinicians and ophthalmologists verify or override outcomes with full audit trails, generating structured clinical referral documentation (English).
                 </p>
               </div>
               <div className="mt-6 font-mono text-[11px] text-[var(--ink)] font-bold uppercase">
