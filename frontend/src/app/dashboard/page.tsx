@@ -66,49 +66,49 @@ export default function DashboardPage() {
           </h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full md:w-auto">
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:gap-3 w-full md:w-auto">
           <Link
             href="/review"
             onClick={() => sound.playClick(720)}
-            className="w-full sm:w-auto text-center px-5 py-3 rounded-full border-2 border-[var(--ink)] bg-[var(--paper)] text-[var(--ink)] font-bold text-sm hover:scale-105 active:scale-95 transition-all no-underline shadow-[3px_3px_0_var(--ink)]"
+            className="w-full sm:w-auto text-center px-3 sm:px-5 py-2.5 sm:py-3 rounded-full border-2 border-[var(--ink)] bg-[var(--paper)] text-[var(--ink)] font-bold text-xs sm:text-sm hover:scale-105 active:scale-95 transition-all no-underline shadow-[2px_2px_0_var(--ink)] sm:shadow-[3px_3px_0_var(--ink)]"
             data-cursor-label="REVIEW"
           >
-            Review Queue ({triageCount})
+            Review ({triageCount})
           </Link>
           <Link
             href="/screening/new"
             onClick={() => sound.playClick(900)}
-            className="w-full sm:w-auto text-center justify-center px-6 py-3 rounded-full bg-[var(--ink)] text-[var(--accent)] font-extrabold text-sm hover:scale-105 active:scale-95 transition-all no-underline shadow-[4px_4px_0_var(--ink)] flex items-center gap-2"
+            className="w-full sm:w-auto text-center justify-center px-3.5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[var(--ink)] text-[var(--accent)] font-extrabold text-xs sm:text-sm hover:scale-105 active:scale-95 transition-all no-underline shadow-[3px_3px_0_var(--ink)] sm:shadow-[4px_4px_0_var(--ink)] flex items-center gap-1.5"
             data-cursor-label="INTAKE"
           >
-            <PlusCircle className="w-4 h-4" />
-            New Screening
+            <PlusCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span>New Screen</span>
           </Link>
         </div>
       </div>
 
-      {/* ─── BENTO STATS GRID ─── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
+      {/* ─── BENTO STATS GRID (2x2 on Mobile, 4-Col on Desktop) ─── */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6 mb-8 sm:mb-12">
         {stats.map((s, idx) => {
           const Icon = s.icon;
           return (
             <div
               key={s.name}
-              className="p-6 sm:p-7 rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] shadow-[6px_6px_0_var(--ink)] flex flex-col justify-between"
+              className="p-3.5 sm:p-7 rounded-2xl sm:rounded-3xl border-2 sm:border-[2.5px] border-[var(--ink)] bg-[var(--paper)] shadow-[3px_3px_0_var(--ink)] sm:shadow-[6px_6px_0_var(--ink)] flex flex-col justify-between"
             >
-              <div className="flex justify-between items-start mb-4">
-                <span className="font-mono text-[11px] tracking-wider uppercase text-[var(--ink-mute)]">
+              <div className="flex justify-between items-start mb-2 sm:mb-4">
+                <span className="font-mono text-[9px] sm:text-[11px] tracking-wider uppercase text-[var(--ink-mute)] line-clamp-1">
                   {s.name}
                 </span>
-                <span className="p-2 rounded-xl bg-[var(--ink)] text-[var(--accent)]">
-                  <Icon className="w-4 h-4" />
+                <span className="p-1 sm:p-2 rounded-lg sm:rounded-xl bg-[var(--ink)] text-[var(--accent)] shrink-0">
+                  <Icon className="w-3 h-3 sm:w-4 sm:h-4" />
                 </span>
               </div>
               <div>
-                <div className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[var(--ink)]">
+                <div className="text-2xl sm:text-5xl font-extrabold tracking-tight text-[var(--ink)]">
                   {s.value}
                 </div>
-                <div className="font-mono text-[11px] text-[var(--ink-soft)] mt-1">
+                <div className="font-mono text-[9px] sm:text-[11px] text-[var(--ink-soft)] mt-0.5 sm:mt-1 line-clamp-1">
                   {s.sub}
                 </div>
               </div>
@@ -118,29 +118,31 @@ export default function DashboardPage() {
       </div>
 
       {/* ─── CLINICAL BENCHMARK CASES LAUNCHPAD ─── */}
-      <div className="rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] p-5 sm:p-8 shadow-[8px_8px_0_var(--ink)] mb-12">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[var(--ink)]/20 mb-6">
+      <div className="rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] p-4 sm:p-8 shadow-[6px_6px_0_var(--ink)] sm:shadow-[8px_8px_0_var(--ink)] mb-8 sm:mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 pb-4 sm:pb-6 border-b border-[var(--ink)]/20 mb-4 sm:mb-6">
           <div>
             <div className="font-mono text-xs uppercase tracking-widest text-[var(--ink-soft)] flex items-center gap-2 mb-1">
               <span className="w-2 h-2 rounded-full bg-[var(--ink)] animate-ping" />
               Benchmark Case Inspector
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--ink)]">
+            <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-[var(--ink)]">
               Interactive Case Launchpad
             </h2>
           </div>
-          <span className="font-mono text-xs text-[var(--ink-mute)]">
-            Load real scans into the Multi-Layer Canvas
+          <span className="font-mono text-[11px] sm:text-xs text-[var(--ink-mute)]">
+            <span className="md:hidden">Swipe benchmark cases →</span>
+            <span className="hidden md:inline">Load real scans into the Multi-Layer Canvas</span>
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Mobile: Horizontal Swipe Track | Desktop: 4-Column Grid */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 no-scrollbar md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-visible">
           {DEMO_CASES.map((demoCase) => (
             <Link
               key={demoCase.screeningId}
               href={`/screening/${demoCase.screeningId}`}
               onClick={() => sound.playClick(800)}
-              className="group p-5 rounded-2xl border-2 border-[var(--ink)] bg-[var(--bg)] hover:bg-[var(--ink)] hover:text-[var(--accent)] transition-all no-underline shadow-[4px_4px_0_var(--ink)] hover:translate-x-[-2px] hover:translate-y-[-2px] flex flex-col justify-between"
+              className="w-[78vw] max-w-[285px] shrink-0 snap-center md:w-auto md:max-w-none group p-4 sm:p-5 rounded-2xl border-2 border-[var(--ink)] bg-[var(--bg)] hover:bg-[var(--ink)] hover:text-[var(--accent)] transition-all no-underline shadow-[3px_3px_0_var(--ink)] sm:shadow-[4px_4px_0_var(--ink)] hover:translate-x-[-2px] hover:translate-y-[-2px] flex flex-col justify-between"
               data-cursor-label="LOAD"
             >
               <div>
@@ -148,7 +150,7 @@ export default function DashboardPage() {
                   <span>{demoCase.patientAlias}</span>
                   <span className="font-bold underline">{demoCase.drGradeLabel}</span>
                 </div>
-                <div className="font-bold text-base group-hover:text-[var(--accent)] transition-colors mb-2">
+                <div className="font-bold text-sm sm:text-base group-hover:text-[var(--accent)] transition-colors mb-1 leading-snug">
                   {demoCase.title}
                 </div>
                 <p className="text-xs text-[var(--ink-soft)] group-hover:text-[#CFCFC4] line-clamp-2">
@@ -156,7 +158,7 @@ export default function DashboardPage() {
                 </p>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-current/20 flex items-center justify-between font-mono text-[11px] font-bold">
+              <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t border-current/20 flex items-center justify-between font-mono text-[11px] font-bold">
                 <span>View Canvas</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -166,7 +168,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ─── ACTIVE CLINIC QUEUE TABLE & MOBILE CARDS ─── */}
-      <div className="rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] p-5 sm:p-8 shadow-[8px_8px_0_var(--ink)]">
+      <div className="rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] p-4 sm:p-8 shadow-[6px_6px_0_var(--ink)] sm:shadow-[8px_8px_0_var(--ink)]">
         <div className="flex justify-between items-center pb-6 border-b border-[var(--ink)]/20 mb-6">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--ink)]">

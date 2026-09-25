@@ -19,6 +19,8 @@ import {
   ArrowRight,
   Flame,
   AlertTriangle,
+  Camera,
+  Sparkles,
 } from 'lucide-react';
 
 function ScreeningInner() {
@@ -29,6 +31,7 @@ function ScreeningInner() {
 
   const initialCase = (caseParam && getDemoCase(caseParam)) || DEMO_CASES[2];
   const [selectedCase, setSelectedCase] = useState<DemoCaseConfig>(initialCase);
+  const [mobileIntakeTab, setMobileIntakeTab] = useState<'demo' | 'upload'>('demo');
   const [screenState, setScreenState] = useState<'idle' | 'scanning' | 'result'>('idle');
   const [scanStepIndex, setScanStepIndex] = useState<number>(0);
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
@@ -177,113 +180,265 @@ function ScreeningInner() {
 
       {/* ─── STAGE 1: INTAKE DROPZONE & PRECONFIGURED BENCHMARK PASSES ─── */}
       {screenState === 'idle' && (
-        <div className="space-y-8 sm:space-y-12">
-          {/* Tactical Drag & Drop Box */}
-          <div
-            onDragOver={(e) => {
-              e.preventDefault();
-              setIsDragOver(true);
+        <div>
+          {/* Shared Hidden File Input */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) handleUploadFile(file);
             }}
-            onDragLeave={() => setIsDragOver(false)}
-            onDrop={handleFileDrop}
-            onClick={() => {
-              sound.playClick(600);
-              fileInputRef.current?.click();
-            }}
-            className={`p-6 sm:p-16 rounded-3xl border-[2.5px] border-dashed border-[var(--ink)] text-center cursor-pointer transition-all duration-300 ${
-              isDragOver
-                ? 'bg-[var(--accent)] scale-[1.01] shadow-[8px_8px_0_var(--ink)]'
-                : 'bg-[var(--paper)] hover:bg-[var(--accent)]/40 shadow-[6px_6px_0_var(--ink)]'
-            }`}
-            data-cursor-label="DROP"
-          >
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleUploadFile(file);
-              }}
-            />
-            <div className="max-w-md mx-auto space-y-4">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[var(--ink)] text-[var(--accent)] flex items-center justify-center mx-auto shadow-lg">
-                <UploadCloud className="w-7 h-7 sm:w-8 sm:h-8" />
-              </div>
-              <div>
-                <h3 className="text-lg sm:text-xl font-bold">Upload Retinal Fundus Photograph</h3>
-                <p className="text-xs sm:text-sm text-[var(--ink-soft)] mt-1 font-medium">
-                  Tap to browse files or drag and drop 45° posterior pole retinal scan (.jpg, .png).
-                </p>
-              </div>
-              <div className="inline-block font-mono text-[10px] sm:text-[11px] uppercase tracking-wider px-3.5 py-1 rounded-full bg-[var(--ink)] text-[var(--accent)] font-bold">
-                Automated OpenCV Quality Gate Triggered on Intake
-              </div>
-            </div>
-          </div>
+          />
 
-          {/* 5 Prototype Clinical Cases */}
-          <div>
-            <div className="flex justify-between items-end mb-4 sm:mb-6">
-              <div>
-                <h2 className="text-lg sm:text-xl font-bold uppercase tracking-tight">
-                  Or Test Demonstration Cases
-                </h2>
-                <p className="font-mono text-[11px] sm:text-xs text-[var(--ink-soft)] mt-0.5">
-                  Select a representative case with documented findings &amp; clinical severity:
-                </p>
-              </div>
-              <span className="font-mono text-xs uppercase font-bold text-[var(--ink)] hidden sm:inline">
-                5 CASload Ready
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4">
-              {DEMO_CASES.map((c) => {
-                const isSelected = selectedCase.screeningId === c.screeningId;
-                return (
-                  <div
-                    key={c.screeningId}
-                    onClick={() => {
-                      sound.playClick(720);
-                      setSelectedCase(c);
-                    }}
-                    className={`p-4 sm:p-5 rounded-2xl border-[2.5px] border-[var(--ink)] cursor-pointer transition-all flex flex-col justify-between select-none ${
-                      isSelected
-                        ? 'bg-[var(--ink)] text-[var(--accent)] shadow-[6px_6px_0_var(--ink)] scale-[1.01]'
-                        : 'bg-[var(--paper)] text-[var(--ink)] hover:bg-[var(--accent)]/30 shadow-[3px_3px_0_var(--ink)]'
-                    }`}
-                    data-cursor-label="SELECT"
-                  >
-                    <div>
-                      <div className="flex justify-between items-center font-mono text-[10px] uppercase font-bold mb-2">
-                        <span>{c.demoNumber}</span>
-                        <span className="underline">{c.drGradeLabel}</span>
-                      </div>
-                      <div className="font-bold text-sm mb-1">{c.title}</div>
-                      <p className="text-[11px] opacity-80 line-clamp-2">{c.description}</p>
-                    </div>
-
-                    <div className="mt-4 pt-2 border-t border-current/20 flex items-center justify-between font-mono text-[10px]">
-                      <span>Quality: {c.qualityStatus}</span>
-                      <span className="font-bold">{c.confidenceValue}%</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Launch Button */}
-            <div className="mt-6 sm:mt-8 text-center">
+          {/* ────── MOBILE-ONLY CURATED WORKFLOW (<640px) ────── */}
+          <div className="sm:hidden space-y-4">
+            {/* Mobile Intake Switcher (Demo vs Upload) */}
+            <div className="flex items-center p-1 rounded-2xl bg-[var(--paper)] border-2 border-[var(--ink)] shadow-[3px_3px_0_var(--ink)]">
               <button
                 type="button"
-                onClick={() => handleStartScan()}
-                className="w-full sm:w-auto px-6 sm:px-10 py-3.5 sm:py-4 rounded-full bg-[var(--ink)] text-[var(--accent)] font-extrabold text-sm sm:text-base tracking-tight shadow-[6px_6px_0_var(--ink)] hover:scale-105 active:scale-95 transition-all"
-                data-cursor-label="EXECUTE"
+                onClick={() => {
+                  sound.playClick(600);
+                  setMobileIntakeTab('demo');
+                }}
+                className={`flex-1 py-2 px-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all ${
+                  mobileIntakeTab === 'demo'
+                    ? 'bg-[var(--ink)] text-[var(--accent)] shadow-sm'
+                    : 'text-[var(--ink-soft)] hover:text-[var(--ink)]'
+                }`}
               >
-                Start Automated Inference Pipeline ({selectedCase.demoNumber}) →
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Demo Cases (5)</span>
               </button>
+              <button
+                type="button"
+                onClick={() => {
+                  sound.playClick(600);
+                  setMobileIntakeTab('upload');
+                }}
+                className={`flex-1 py-2 px-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all ${
+                  mobileIntakeTab === 'upload'
+                    ? 'bg-[var(--ink)] text-[var(--accent)] shadow-sm'
+                    : 'text-[var(--ink-soft)] hover:text-[var(--ink)]'
+                }`}
+              >
+                <UploadCloud className="w-3.5 h-3.5" />
+                <span>Upload Scan</span>
+              </button>
+            </div>
+
+            {/* Mobile Mode A: Upload */}
+            {mobileIntakeTab === 'upload' && (
+              <div
+                onClick={() => {
+                  sound.playClick(600);
+                  fileInputRef.current?.click();
+                }}
+                className="p-6 rounded-3xl border-[2.5px] border-dashed border-[var(--ink)] bg-[var(--paper)] text-center cursor-pointer shadow-[5px_5px_0_var(--ink)] active:scale-[0.99] transition-all"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-[var(--ink)] text-[var(--accent)] flex items-center justify-center mx-auto mb-3 shadow-md">
+                  <UploadCloud className="w-7 h-7" />
+                </div>
+                <h3 className="text-base font-bold">Select Retinal Fundus Image</h3>
+                <p className="text-xs text-[var(--ink-soft)] mt-1 mb-4">
+                  Tap to choose from photo library or camera (.jpg, .png)
+                </p>
+                <div className="flex flex-col gap-2">
+                  <div className="py-2.5 px-4 rounded-full bg-[var(--ink)] text-[var(--accent)] font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm">
+                    <Camera className="w-4 h-4" />
+                    <span>Choose Photo / Camera</span>
+                  </div>
+                  <span className="font-mono text-[10px] text-[var(--ink-soft)] uppercase">
+                    Automated Quality Gate Runs on Upload
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Mobile Mode B: Demonstration Cases (Zero-Scroll Hassle-Free Selection) */}
+            {mobileIntakeTab === 'demo' && (
+              <div className="space-y-4">
+                {/* Quick Case Switcher Strip */}
+                <div>
+                  <div className="flex justify-between items-center mb-2 font-mono text-[11px] text-[var(--ink-soft)]">
+                    <span>SELECT CASE (1 TAP):</span>
+                    <span className="font-bold text-[var(--ink)]">{selectedCase.demoNumber} Selected</span>
+                  </div>
+                  <div className="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
+                    {DEMO_CASES.map((c) => {
+                      const isSelected = selectedCase.screeningId === c.screeningId;
+                      return (
+                        <button
+                          key={c.screeningId}
+                          type="button"
+                          onClick={() => {
+                            sound.playClick(720);
+                            setSelectedCase(c);
+                          }}
+                          className={`px-3 py-1.5 rounded-full font-mono text-[11px] uppercase font-bold shrink-0 transition-all ${
+                            isSelected
+                              ? 'bg-[var(--ink)] text-[var(--accent)] shadow-[2px_2px_0_var(--ink)]'
+                              : 'bg-[var(--paper)] text-[var(--ink)] border border-[var(--ink)]'
+                          }`}
+                        >
+                          {c.demoNumber}: {c.drGradeLabel.split(':')[0]}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Mobile Horizontal Snap Reel */}
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 no-scrollbar">
+                  {DEMO_CASES.map((c) => {
+                    const isSelected = selectedCase.screeningId === c.screeningId;
+                    return (
+                      <div
+                        key={c.screeningId}
+                        onClick={() => {
+                          sound.playClick(720);
+                          setSelectedCase(c);
+                        }}
+                        className={`w-[82vw] max-w-[310px] shrink-0 snap-center p-4 rounded-2xl border-[2.5px] border-[var(--ink)] cursor-pointer transition-all flex flex-col justify-between select-none ${
+                          isSelected
+                            ? 'bg-[var(--ink)] text-[var(--accent)] shadow-[5px_5px_0_var(--ink)]'
+                            : 'bg-[var(--paper)] text-[var(--ink)] shadow-[2px_2px_0_var(--ink)]'
+                        }`}
+                      >
+                        <div>
+                          <div className="flex justify-between items-center font-mono text-[10px] uppercase font-bold mb-1.5">
+                            <span>{c.demoNumber}</span>
+                            <span className="underline">{c.drGradeLabel}</span>
+                          </div>
+                          <div className="font-bold text-sm mb-1 leading-snug">{c.title}</div>
+                          <p className="text-[11px] opacity-80 line-clamp-2">{c.description}</p>
+                        </div>
+
+                        <div className="mt-3 pt-2 border-t border-current/20 flex items-center justify-between font-mono text-[10px]">
+                          <span>Quality: {c.qualityStatus}</span>
+                          <span className="font-bold">{c.confidenceValue}%</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Mobile Launch Button: Positioned immediately below cards for zero-scroll activation */}
+                <div className="pt-1">
+                  <button
+                    type="button"
+                    onClick={() => handleStartScan()}
+                    className="w-full py-3.5 px-6 rounded-full bg-[var(--ink)] text-[var(--accent)] font-extrabold text-sm tracking-tight shadow-[5px_5px_0_var(--ink)] active:scale-95 transition-all flex items-center justify-center gap-2"
+                  >
+                    <span>Start Inference ({selectedCase.demoNumber})</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* ────── DESKTOP / TABLET WORKFLOW (>=640px UNTOUCHED PC UI) ────── */}
+          <div className="hidden sm:block space-y-12">
+            {/* Tactical Drag & Drop Box */}
+            <div
+              onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragOver(true);
+              }}
+              onDragLeave={() => setIsDragOver(false)}
+              onDrop={handleFileDrop}
+              onClick={() => {
+                sound.playClick(600);
+                fileInputRef.current?.click();
+              }}
+              className={`p-16 rounded-3xl border-[2.5px] border-dashed border-[var(--ink)] text-center cursor-pointer transition-all duration-300 ${
+                isDragOver
+                  ? 'bg-[var(--accent)] scale-[1.01] shadow-[8px_8px_0_var(--ink)]'
+                  : 'bg-[var(--paper)] hover:bg-[var(--accent)]/40 shadow-[6px_6px_0_var(--ink)]'
+              }`}
+              data-cursor-label="DROP"
+            >
+              <div className="max-w-md mx-auto space-y-4">
+                <div className="w-16 h-16 rounded-2xl bg-[var(--ink)] text-[var(--accent)] flex items-center justify-center mx-auto shadow-lg">
+                  <UploadCloud className="w-8 h-8" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">Upload Retinal Fundus Photograph</h3>
+                  <p className="text-sm text-[var(--ink-soft)] mt-1 font-medium">
+                    Tap to browse files or drag and drop 45° posterior pole retinal scan (.jpg, .png).
+                  </p>
+                </div>
+                <div className="inline-block font-mono text-[11px] uppercase tracking-wider px-3.5 py-1 rounded-full bg-[var(--ink)] text-[var(--accent)] font-bold">
+                  Automated OpenCV Quality Gate Triggered on Intake
+                </div>
+              </div>
+            </div>
+
+            {/* 5 Prototype Clinical Cases */}
+            <div>
+              <div className="flex justify-between items-end mb-6">
+                <div>
+                  <h2 className="text-xl font-bold uppercase tracking-tight">
+                    Or Test Demonstration Cases
+                  </h2>
+                  <p className="font-mono text-xs text-[var(--ink-soft)] mt-0.5">
+                    Select a representative case with documented findings &amp; clinical severity:
+                  </p>
+                </div>
+                <span className="font-mono text-xs uppercase font-bold text-[var(--ink)]">
+                  5 CASload Ready
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                {DEMO_CASES.map((c) => {
+                  const isSelected = selectedCase.screeningId === c.screeningId;
+                  return (
+                    <div
+                      key={c.screeningId}
+                      onClick={() => {
+                        sound.playClick(720);
+                        setSelectedCase(c);
+                      }}
+                      className={`p-5 rounded-2xl border-[2.5px] border-[var(--ink)] cursor-pointer transition-all flex flex-col justify-between select-none ${
+                        isSelected
+                          ? 'bg-[var(--ink)] text-[var(--accent)] shadow-[6px_6px_0_var(--ink)] scale-[1.01]'
+                          : 'bg-[var(--paper)] text-[var(--ink)] hover:bg-[var(--accent)]/30 shadow-[3px_3px_0_var(--ink)]'
+                      }`}
+                      data-cursor-label="SELECT"
+                    >
+                      <div>
+                        <div className="flex justify-between items-center font-mono text-[10px] uppercase font-bold mb-2">
+                          <span>{c.demoNumber}</span>
+                          <span className="underline">{c.drGradeLabel}</span>
+                        </div>
+                        <div className="font-bold text-sm mb-1">{c.title}</div>
+                        <p className="text-[11px] opacity-80 line-clamp-2">{c.description}</p>
+                      </div>
+
+                      <div className="mt-4 pt-2 border-t border-current/20 flex items-center justify-between font-mono text-[10px]">
+                        <span>Quality: {c.qualityStatus}</span>
+                        <span className="font-bold">{c.confidenceValue}%</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Launch Button */}
+              <div className="mt-8 text-center">
+                <button
+                  type="button"
+                  onClick={() => handleStartScan()}
+                  className="px-10 py-4 rounded-full bg-[var(--ink)] text-[var(--accent)] font-extrabold text-base tracking-tight shadow-[6px_6px_0_var(--ink)] hover:scale-105 active:scale-95 transition-all"
+                  data-cursor-label="EXECUTE"
+                >
+                  Start Automated Inference Pipeline ({selectedCase.demoNumber}) →
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -355,7 +510,7 @@ function ScreeningInner() {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-4 font-mono text-xs">
+            <div className="grid grid-cols-2 gap-2.5 sm:flex sm:items-center sm:gap-4 font-mono text-xs w-full sm:w-auto">
               <div className="p-3 rounded-2xl border-2 border-[var(--ink)] bg-[var(--bg)] text-center min-w-[110px]">
                 <div className="font-extrabold text-xl">{selectedCase.confidenceValue}%</div>
                 <div className="text-[10px] uppercase text-[var(--ink-soft)]">Confidence</div>
@@ -401,11 +556,11 @@ function ScreeningInner() {
             />
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-2 border-t border-[var(--ink)]/20">
-              <div className="grid grid-cols-1 xs:grid-cols-3 sm:flex items-center gap-2">
+              <div className="grid grid-cols-3 sm:flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => handleReviewAction('CONFIRMED', 'Confirmed Grade')}
-                  className="px-4 py-2.5 rounded-full border-2 border-[var(--ink)] bg-[var(--ok)] text-[var(--ink)] font-bold text-xs uppercase hover:scale-105 active:scale-95 transition-all shadow-[2px_2px_0_var(--ink)] text-center"
+                  className="px-3 sm:px-4 py-2.5 rounded-full border-2 border-[var(--ink)] bg-[var(--ok)] text-[var(--ink)] font-bold text-xs uppercase hover:scale-105 active:scale-95 transition-all shadow-[2px_2px_0_var(--ink)] text-center"
                   data-cursor-label="CONFIRM"
                 >
                   ✓ Sign-off
@@ -413,7 +568,7 @@ function ScreeningInner() {
                 <button
                   type="button"
                   onClick={() => handleReviewAction('OVERRIDDEN', 'Overridden Grade')}
-                  className="px-4 py-2.5 rounded-full border-2 border-[var(--ink)] bg-amber-400 text-[var(--ink)] font-bold text-xs uppercase hover:scale-105 active:scale-95 transition-all shadow-[2px_2px_0_var(--ink)] text-center"
+                  className="px-3 sm:px-4 py-2.5 rounded-full border-2 border-[var(--ink)] bg-amber-400 text-[var(--ink)] font-bold text-xs uppercase hover:scale-105 active:scale-95 transition-all shadow-[2px_2px_0_var(--ink)] text-center"
                   data-cursor-label="OVERRIDE"
                 >
                   Override
@@ -421,7 +576,7 @@ function ScreeningInner() {
                 <button
                   type="button"
                   onClick={() => handleReviewAction('UNGRADABLE', 'Flagged Ungradable')}
-                  className="px-4 py-2.5 rounded-full border-2 border-[var(--ink)] bg-rose-400 text-[var(--ink)] font-bold text-xs uppercase hover:scale-105 active:scale-95 transition-all shadow-[2px_2px_0_var(--ink)] text-center"
+                  className="px-3 sm:px-4 py-2.5 rounded-full border-2 border-[var(--ink)] bg-rose-400 text-[var(--ink)] font-bold text-xs uppercase hover:scale-105 active:scale-95 transition-all shadow-[2px_2px_0_var(--ink)] text-center"
                   data-cursor-label="RETAKE"
                 >
                   Retake
