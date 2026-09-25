@@ -21,8 +21,8 @@ const WORKERS: WorkerPass[] = [
     code: 'OPENCV-GATE-01',
     title: 'Image Quality Sentinel',
     role: 'Blur, glare & focus verification',
-    shift: '24/7 · sub-second',
-    salary: '< 15ms CPU',
+    shift: '24/7 · on-site',
+    salary: 'Real-time Check',
     quote: 'Rejects blur and glare before any diagnostic hazard occurs.',
     status: 'ACTIVE',
     variant: 'acid',
@@ -31,10 +31,10 @@ const WORKERS: WorkerPass[] = [
     id: 'neural',
     code: 'NEURAL-CAM-05',
     title: 'Microvascular Auditor',
-    role: 'ICDR 5-class grading & Grad-CAM',
+    role: 'ICDR 5-class grading & explainability',
     shift: '24/7 · continuous',
-    salary: '180ms GPU',
-    quote: 'Extracts microaneurysms, hemorrhages, and Frangi vessel caliber.',
+    salary: 'Fast Pipeline',
+    quote: 'Identifies microaneurysms, hemorrhages, and vascular changes.',
     status: 'ACTIVE',
     variant: 'cielo',
   },
@@ -42,9 +42,9 @@ const WORKERS: WorkerPass[] = [
     id: 'calibrator',
     code: 'CALIBRATOR-99',
     title: 'Uncertainty Arbiter',
-    role: 'Epistemic safety & abstention',
+    role: 'Confidence verification & triage',
     shift: '24/7 · real-time',
-    salary: 'ECE < 0.045',
+    salary: 'Calibrated Confidence',
     quote: 'Refuses to guess. Escalates borderline cases to human ophthalmologists.',
     status: 'ACTIVE',
     variant: 'menta',
@@ -53,9 +53,9 @@ const WORKERS: WorkerPass[] = [
     id: 'telemitra',
     code: 'TELEMITRA-SYNC',
     title: 'Rural Telemedicine Dispatcher',
-    role: 'Local queue & FHIR export',
+    role: 'Local queue & referral export',
     shift: '24/7 · zero data loss',
-    salary: 'Local IndexedDB',
+    salary: 'Offline-First Sync',
     quote: 'Keeps rural triage humming even when regional cellular connectivity drops.',
     status: 'ACTIVE',
     variant: 'coral',
@@ -85,10 +85,10 @@ export function DigitalWorkerDeck() {
             ( The Clinical Screening Fleet )
           </div>
           <h3 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.04em] text-[var(--ink)] leading-[0.94] uppercase mb-5">
-            Autonomous triage.<br />Zero diagnostic fatigue.
+            Workflow support.<br />Zero diagnostic fatigue.
           </h3>
           <p className="text-sm sm:text-base text-[var(--ink-soft)] leading-relaxed font-semibold mb-6">
-            Every screening agent runs as a dedicated worker — continuous 24/7 uptime, calibrated epistemic safety bounds, and sub-second execution. Click the staff pass deck to cycle through the clinical workers.
+            Every component serves a specific clinical need — instant quality checking, explainable triage, uncertainty escalation, and offline synchronization for rural centres. Click the staff pass deck to cycle through the clinical workers.
           </p>
           <div className="font-mono text-[11px] text-[var(--ink-soft)] font-bold uppercase tracking-wider flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[var(--ok)] animate-pulse" />

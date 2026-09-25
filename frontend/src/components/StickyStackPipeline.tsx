@@ -32,23 +32,23 @@ export function StickyStackPipeline() {
               <span className="opacity-40">02 · 03 · 04</span>
             </div>
             <div className="font-mono text-[11px] tracking-[0.14em] uppercase text-[#8F8F80] mb-2">
-              ( Laplacian Variance · Illumination · Glare Detection )
+              ( Focus Variance · Illumination · Glare Detection )
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.035em] text-white leading-[0.96] mb-3">
-              OpenCV Quality Gate Assessment
+              Image Quality Gate Assessment
             </h2>
             <p className="text-sm sm:text-base text-[#CFCFC4] leading-relaxed max-w-[480px] mb-4">
-              Automated Laplacian sharpness, illumination variance, and field coverage filters evaluate scan quality before any AI inference. Ungradable images are rejected early to eliminate diagnostic hallucination.
+              Automated focus variance, illumination, and field coverage filters evaluate scan quality before any AI inference. Ungradable or blurry images are rejected early to prevent false negatives and prompt for an immediate retake.
             </p>
             <div className="font-mono text-[11px] text-[var(--accent)] space-y-1 mb-4">
-              <div>→ Laplacian Sharpness Threshold &gt; 100.0</div>
-              <div>→ Illumination Uniformity Index &gt; 0.65</div>
-              <div>→ Macular Glare &amp; Artifact Detection &lt; 5%</div>
-              <div>→ Sub-second Pre-screening Response</div>
+              <div>→ Focus Variance Quality Thresholding</div>
+              <div>→ Illumination &amp; Contrast Distribution</div>
+              <div>→ Macular Glare &amp; Artifact Screening</div>
+              <div>→ Immediate On-Site Retake Prompts</div>
             </div>
             <div>
               <span className="inline-block font-mono text-[10px] tracking-widest uppercase border-[1.5px] border-[var(--accent)]/50 text-[var(--accent)] rounded-full px-3.5 py-1.5">
-                Zero Hallucinations · Pass Rate: 94.2%
+                Rejects Low-Quality Inputs · Immediate Retake Feedback
               </span>
             </div>
           </div>
@@ -69,10 +69,10 @@ export function StickyStackPipeline() {
                   <Eye className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--accent)] animate-pulse" />
                 </div>
                 <div className="absolute top-1 left-0 px-2 py-0.5 rounded bg-[var(--ink)] border border-[var(--accent)]/40 text-[9px] font-mono text-[var(--accent)]">
-                  Sharpness: 142.8
+                  Focus: Gradable
                 </div>
                 <div className="absolute bottom-2 right-0 px-2 py-0.5 rounded bg-[var(--ink)] border border-[var(--accent)]/40 text-[9px] font-mono text-[var(--ok)]">
-                  Contrast: 0.88 PASS
+                  Contrast: Normal PASS
                 </div>
               </div>
             </div>
@@ -80,7 +80,7 @@ export function StickyStackPipeline() {
             <div className="grid grid-cols-3 gap-2 font-mono text-[10px] text-center">
               <div className="p-1.5 rounded bg-[var(--accent)]/10 text-[var(--accent)]">Focus: PASS</div>
               <div className="p-1.5 rounded bg-[var(--accent)]/10 text-[var(--accent)]">Coverage: 45°</div>
-              <div className="p-1.5 rounded bg-[var(--ok)]/20 text-[var(--ok)]">Quality: 98%</div>
+              <div className="p-1.5 rounded bg-[var(--ok)]/20 text-[var(--ok)]">Status: Gradable</div>
             </div>
           </div>
         </div>
@@ -110,13 +110,13 @@ export function StickyStackPipeline() {
               <span className="opacity-40">03 · 04</span>
             </div>
             <div className="font-mono text-[11px] tracking-[0.14em] uppercase text-[var(--ink-soft)] mb-2">
-              ( EfficientNet-B0 · Frangi Vesselness · Grad-CAM Hooks )
+              ( Deep Learning Classifier · Vessel Mapping · Attention Overlays )
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.035em] text-[var(--ink)] leading-[0.96] mb-3">
-              ICDR Severity &amp; Grad-CAM Explainability
+              AI-Assisted Severity &amp; Explainability
             </h2>
             <p className="text-sm sm:text-base text-[var(--ink-soft)] leading-relaxed max-w-[480px] mb-4">
-              Deep neural classification grades DR severity from Grade 0 to Grade 4, backed by backward-hook Grad-CAM spatial attention maps that reveal the exact microaneurysms and lesions driving the inference.
+              Assesses DR severity across the 5-class ICDR scale from Grade 0 to Grade 4, generating visual attention overlays that highlight suspected microaneurysms, hemorrhages, and vascular changes driving the result.
             </p>
             <div className="font-mono text-[11px] text-[var(--ink)] space-y-1 mb-4">
               <div>→ Grade 0: No Apparent Retinopathy</div>
@@ -144,9 +144,9 @@ export function StickyStackPipeline() {
                   ACTIVE LAYER: {activeLayer.toUpperCase()}
                 </div>
                 <p className="text-[11px] text-[#CFCFC4] max-w-xs">
-                  {activeLayer === 'gradcam' && 'Grad-CAM Attention: High activation focused on superior nasal microaneurysms.'}
-                  {activeLayer === 'vessels' && 'Frangi Vesselness: Traces capillary caliber narrowing and tortuosity.'}
-                  {activeLayer === 'clahe' && 'Contrast-Limited Adaptive Histogram Equalization: Enhanced posterior pole.'}
+                  {activeLayer === 'gradcam' && 'Grad-CAM Attention: Highlights suspicious vascular and lesion clusters.'}
+                  {activeLayer === 'vessels' && 'Vessel Mapping: Traces retinal vascular caliber and branching structure.'}
+                  {activeLayer === 'clahe' && 'Contrast Enhancement: Balances local lighting across the posterior pole.'}
                   {activeLayer === 'original' && 'Standard 45° posterior pole fundus color photograph intake.'}
                 </p>
               </div>
@@ -175,7 +175,7 @@ export function StickyStackPipeline() {
         </div>
       </div>
 
-      {/* ─── STAGE 03: TEMPERATURE SCALING & UNCERTAINTY ─── */}
+      {/* ─── STAGE 03: CONFIDENCE CALIBRATION & UNCERTAINTY ─── */}
       <div
         data-stack=""
         className="relative lg:sticky lg:top-0 min-h-auto lg:h-screen lg:max-h-screen lg:overflow-hidden rounded-t-[28px] sm:rounded-t-[36px] bg-[var(--paper)] text-[var(--ink)] border-t-2 border-[var(--ink)] flex items-center justify-center py-12 lg:py-6 px-5 sm:px-10 lg:px-12"
@@ -199,23 +199,23 @@ export function StickyStackPipeline() {
               <span className="opacity-40">04</span>
             </div>
             <div className="font-mono text-[11px] tracking-[0.14em] uppercase text-[var(--ink-soft)] mb-2">
-              ( Post-Hoc Temperature Scaling · Monte Carlo Abstention )
+              ( Calibrated Confidence · Automated Uncertainty Triage )
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.035em] text-[var(--ink)] leading-[0.96] mb-3">
-              Temperature-Scaled Confidence
+              Confidence Calibration &amp; Uncertainty Handling
             </h2>
             <p className="text-sm sm:text-base text-[var(--ink-soft)] leading-relaxed max-w-[480px] mb-4">
-              Uncalibrated models are dangerously overconfident. Retina-Mitra uses post-hoc temperature scaling to align predicted probabilities with true empirical accuracy, auto-routing borderline cases for human verification.
+              Standard models can be overconfident on borderline or ambiguous scans. Retina-Mitra evaluates prediction certainty and automatically routes uncertain cases for priority human specialist review.
             </p>
             <div className="font-mono text-[11px] text-[var(--ink)] space-y-1 mb-4">
-              <div>→ Expected Calibration Error (ECE) &lt; 0.045</div>
-              <div>→ Auto-Escalation Threshold &lt; 0.70 Confidence</div>
-              <div>→ Monte Carlo Dropout Epistemic Variance</div>
-              <div>→ Safety Abstention Guarantee</div>
+              <div>→ Confidence Calibration for Borderline Triage</div>
+              <div>→ Auto-Escalation Threshold on Low Certainty</div>
+              <div>→ Uncertainty-Driven Escalation to Specialists</div>
+              <div>→ Non-Prescriptive Screening Support</div>
             </div>
             <div>
               <span className="inline-block font-mono text-[10px] tracking-widest uppercase border-[1.5px] border-[var(--ink)] text-[var(--ink)] rounded-full px-3.5 py-1.5">
-                Calibrated Safety · ECE &lt; 0.045
+                Confidence Calibration · Safeguards Borderline Cases
               </span>
             </div>
           </div>
@@ -223,7 +223,7 @@ export function StickyStackPipeline() {
           {/* Gauge Schematic 03 */}
           <div className="relative bg-[var(--ink)] text-[var(--accent)] rounded-3xl p-5 sm:p-6 min-h-[260px] max-h-[360px] sm:aspect-[4/3] flex flex-col justify-between overflow-hidden shadow-2xl">
             <div className="flex items-center justify-between font-mono text-[10px] text-[var(--accent)] tracking-wider">
-              <span>EPISTEMIC UNCERTAINTY ARBITER</span>
+              <span>UNCERTAINTY &amp; TRIAGE ROUTER</span>
               <span className="text-[var(--ok)]">CALIBRATED</span>
             </div>
 
@@ -246,7 +246,7 @@ export function StickyStackPipeline() {
             </div>
 
             <div className="p-2 rounded-xl bg-[var(--accent)]/10 text-[var(--accent)] font-mono text-[10px] flex items-center justify-between">
-              <span>Status: Autonomous Clear</span>
+              <span>Status: Screening Confidence Clear</span>
               <span className="text-[var(--ok)] font-bold">Passed Threshold</span>
             </div>
           </div>

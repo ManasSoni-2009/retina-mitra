@@ -153,12 +153,12 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* Card 2: Epistemic Uncertainty & Safety Bounds */}
+        {/* Card 2: Uncertainty Calibration & Safety Bounds */}
         <div className="p-6 sm:p-8 rounded-3xl border-[2.5px] border-[var(--ink)] bg-[var(--paper)] shadow-[8px_8px_0_var(--ink)] space-y-6">
           <div className="flex items-center gap-2 pb-4 border-b border-[var(--ink)]/20">
             <Shield className="w-5 h-5 text-[var(--ink)]" />
             <h2 className="text-xl font-bold uppercase tracking-tight">
-              Epistemic Safety Bounds
+              Uncertainty Safety Bounds
             </h2>
           </div>
 
@@ -185,7 +185,7 @@ export default function SettingsPage() {
           <div className="p-4 rounded-2xl bg-[var(--bg)] border-2 border-[var(--ink)] font-mono text-xs space-y-2">
             <div className="font-bold text-[var(--ink)]">Safety Protocol Status: ACTIVE</div>
             <div className="text-[var(--ink-soft)]">
-              Temperature parameter T = 1.42 fine-tuned on APTOS &amp; IDRiD validation datasets. Zero unverified autonomous outputs.
+              Confidence calibration active to safeguard borderline cases. Zero unverified autonomous outputs on referral-grade scans.
             </div>
           </div>
         </div>

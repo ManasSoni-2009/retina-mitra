@@ -50,7 +50,7 @@ export default function LandingPage() {
               </defs>
               <text className="font-mono text-[8px] tracking-[2.2px] uppercase fill-[var(--ink)] font-bold">
                 <textPath href="#circlePath" startOffset="0">
-                  ✦ ZERO DEMO MODE ✦ REAL TELEMEDICINE ✦
+                  ✦ RURAL TELEMEDICINE ✦ SCREEN · REVIEW · REFER ✦
                 </textPath>
               </text>
             </svg>
@@ -65,11 +65,11 @@ export default function LandingPage() {
         {/* Eyebrow Status Pill */}
         <div className="relative z-10 font-mono text-[10px] sm:text-xs tracking-[0.16em] uppercase mb-4 flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-[var(--ink)] animate-pulse" />
-          <span className="font-bold">Explainable Retinal AI — OpenCV · PyTorch · HITL</span>
+          <span className="font-bold">Capture → Check → Screen → Review → Refer</span>
         </div>
 
         {/* Scaled Kinetic Headline (fits perfectly on 1 screen on PC, wraps gracefully on mobile) */}
-        <h1 className="relative z-10 text-[clamp(2.1rem,6.8vw,6.4rem)] font-extrabold tracking-[-0.045em] leading-[0.9] max-w-[13ch] uppercase mb-6">
+        <h1 className="relative z-10 text-[clamp(2.1rem,6.8vw,6.4rem)] font-extrabold tracking-[-0.04em] leading-[0.9] max-w-[13ch] uppercase mb-6">
           <span className="block">Screening that</span>
           <span className="block">actually</span>
           <span className="block relative inline-block">
@@ -102,7 +102,7 @@ export default function LandingPage() {
             <ArrowRight className="w-4 h-4" />
           </Link>
           <p className="max-w-md text-xs sm:text-sm font-semibold leading-relaxed text-[var(--ink-soft)]">
-            A production-ready decision-support system for diabetic retinopathy. Zero fake demo databases. Calibrated uncertainty. Specialists sign off before any referral slip is issued.
+            Built for low-connectivity retinal screening at rural healthcare centres. Combines automated image-quality checks, explainable AI screening, uncertainty triage, and human specialist sign-off.
           </p>
         </div>
 
@@ -114,19 +114,15 @@ export default function LandingPage() {
 
       {/* ─── 2. COMPACT MARQUEE RIBBON ─── */}
       <div className="bg-[var(--ink)] text-[var(--accent)] py-3.5 overflow-hidden border-y-2 border-[var(--ink)] select-none">
-        <div className="flex whitespace-nowrap font-extrabold text-base sm:text-xl tracking-tight animate-[marquee_22s_linear_infinite]">
-          <span className="mx-4">✦ OPENCV QUALITY GATE</span>
-          <span className="mx-4">✦ 5-CLASS ICDR GRADING</span>
-          <span className="mx-4">✦ GRAD-CAM ATTENTION MAPS</span>
-          <span className="mx-4">✦ FRANGI VESSEL EXTRACTION</span>
-          <span className="mx-4">✦ EPISTEMIC UNCERTAINTY</span>
-          <span className="mx-4">✦ SPECIALIST OVERRIDE WORKSPACE</span>
-          <span className="mx-4">✦ BILINGUAL REPORTS (EN/MR)</span>
-          <span className="mx-4">✦ ZERO DEMO MODE</span>
-          <span className="mx-4">✦ OPENCV QUALITY GATE</span>
-          <span className="mx-4">✦ 5-CLASS ICDR GRADING</span>
-          <span className="mx-4">✦ GRAD-CAM ATTENTION MAPS</span>
-          <span className="mx-4">✦ FRANGI VESSEL EXTRACTION</span>
+        <div className="flex whitespace-nowrap font-extrabold text-base sm:text-xl tracking-tight animate-[marquee_24s_linear_infinite]">
+          <span className="mx-4">✦ CAPTURE → CHECK → SCREEN → REVIEW → REFER</span>
+          <span className="mx-4">✦ IMAGE QUALITY GATE</span>
+          <span className="mx-4">✦ 5-CLASS ICDR TRIAGE</span>
+          <span className="mx-4">✦ EXPLAINABLE VISUAL OVERLAYS</span>
+          <span className="mx-4">✦ CONFIDENCE CALIBRATION</span>
+          <span className="mx-4">✦ SPECIALIST OVERSIGHT WORKSPACE</span>
+          <span className="mx-4">✦ LOW-CONNECTIVITY OFFLINE SYNC</span>
+          <span className="mx-4">✦ BILINGUAL REFERRAL SLIPS (EN/MR)</span>
         </div>
       </div>
 
@@ -142,13 +138,13 @@ export default function LandingPage() {
           <div className="gsap-reveal max-w-3xl mb-12 sm:mb-16">
             <div className="font-mono text-[11px] tracking-[0.16em] uppercase text-[var(--ink-soft)] mb-2 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[var(--ink)]" />
-              What We Do
+              Rural Telemedicine Workflow
             </div>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.04em] text-[var(--ink)] leading-[0.94] uppercase mb-4">
-              We don't build<br />black-box AI.
+              Screening built for<br />rural reality.
             </h2>
             <p className="text-base sm:text-lg font-semibold text-[var(--ink)] leading-relaxed">
-              Retina-Mitra is built specifically for public health screenings and tele-ophthalmology in high-volume, low-resource settings. Every inference is backed by auditable visual evidence.
+              In primary care centres and rural camps, diabetic retinopathy triage struggles with blurry captures, scarce ophthalmologists, and spotty internet. Retina-Mitra provides an end-to-end workflow: verifying image quality on-site, assisting triage with visual evidence, and routing uncertain cases for verified specialist review.
             </p>
           </div>
 
@@ -159,13 +155,13 @@ export default function LandingPage() {
                 <span className="w-11 h-11 rounded-2xl bg-[var(--ink)] text-[var(--accent)] flex items-center justify-center mb-4">
                   <ShieldCheck className="w-6 h-6" />
                 </span>
-                <h3 className="text-xl font-bold uppercase tracking-tight mb-2">Automated Quality Gate</h3>
+                <h3 className="text-xl font-bold uppercase tracking-tight mb-2">On-Site Quality Check</h3>
                 <p className="text-xs sm:text-sm text-[var(--ink-soft)] font-medium leading-relaxed">
-                  Evaluates focus variance, illumination range, and macular glare before ML inference, halting blurry scans at the intake gate.
+                  Focus variance, illumination, and field coverage filters check quality right at capture time, preventing ungradable or blurry scans from causing diagnostic errors.
                 </p>
               </div>
               <div className="mt-6 font-mono text-[11px] text-[var(--ink)] font-bold uppercase">
-                → Laplacian Focus &gt; 100.0
+                → Rejects Low-Quality Inputs
               </div>
             </div>
 
@@ -174,13 +170,13 @@ export default function LandingPage() {
                 <span className="w-11 h-11 rounded-2xl bg-[var(--ink)] text-[var(--accent)] flex items-center justify-center mb-4">
                   <Eye className="w-6 h-6" />
                 </span>
-                <h3 className="text-xl font-bold uppercase tracking-tight mb-2">Multi-Layer Explainability</h3>
+                <h3 className="text-xl font-bold uppercase tracking-tight mb-2">Explainable AI Triage</h3>
                 <p className="text-xs sm:text-sm text-[var(--ink-soft)] font-medium leading-relaxed">
-                  Grad-CAM backward-hook attention heatmaps and Frangi vessel segmentation make neural decisions visible and verifiable.
+                  Grades DR severity across the 5-class ICDR scale while generating transparent visual attention overlays that highlight suspected lesions and microaneurysms.
                 </p>
               </div>
               <div className="mt-6 font-mono text-[11px] text-[var(--ink)] font-bold uppercase">
-                → 6 Interactive Visual Layers
+                → Multi-Layer Visual Overlays
               </div>
             </div>
 
@@ -189,13 +185,13 @@ export default function LandingPage() {
                 <span className="w-11 h-11 rounded-2xl bg-[var(--ink)] text-[var(--accent)] flex items-center justify-center mb-4">
                   <Users className="w-6 h-6" />
                 </span>
-                <h3 className="text-xl font-bold uppercase tracking-tight mb-2">Specialist Oversight</h3>
+                <h3 className="text-xl font-bold uppercase tracking-tight mb-2">Specialist Review &amp; Refer</h3>
                 <p className="text-xs sm:text-sm text-[var(--ink-soft)] font-medium leading-relaxed">
-                  Specialists sign off or override classifications with full reason logging, generating bilingual official referral slips.
+                  Clinicians and ophthalmologists verify or override outcomes with full audit trails, generating bilingual (English &amp; Marathi) referral documentation.
                 </p>
               </div>
               <div className="mt-6 font-mono text-[11px] text-[var(--ink)] font-bold uppercase">
-                → English &amp; Marathi Reports
+                → Human-in-the-Loop Oversight
               </div>
             </div>
           </div>
@@ -220,27 +216,27 @@ export default function LandingPage() {
 
         <div className="relative z-10 max-w-[1320px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
           <div className="gsap-counter">
-            <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">94.2%</div>
+            <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">5-Stage</div>
             <div className="font-mono text-[11px] sm:text-xs text-[#CFCFC4] uppercase tracking-wider mt-2">
-              Quality Gate Pass Ratio
+              End-to-End Workflow
             </div>
           </div>
           <div className="gsap-counter">
-            <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">0.038</div>
+            <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">0–4</div>
             <div className="font-mono text-[11px] sm:text-xs text-[#CFCFC4] uppercase tracking-wider mt-2">
-              Calibration Error (ECE)
+              ICDR Severity Grading
             </div>
           </div>
           <div className="gsap-counter">
-            <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">&lt;180ms</div>
+            <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">Offline</div>
             <div className="font-mono text-[11px] sm:text-xs text-[#CFCFC4] uppercase tracking-wider mt-2">
-              GPU Inference Latency
+              Local Queue &amp; Cloud Sync
             </div>
           </div>
           <div className="gsap-counter">
             <div className="text-4xl sm:text-6xl font-extrabold tracking-tight">100%</div>
             <div className="font-mono text-[11px] sm:text-xs text-[#CFCFC4] uppercase tracking-wider mt-2">
-              Specialist Audit Logging
+              Human Specialist Oversight
             </div>
           </div>
         </div>
@@ -303,8 +299,8 @@ export default function LandingPage() {
               },
               {
                 id: '03',
-                q: 'How does temperature scaling improve patient safety?',
-                a: 'Standard neural networks output uncalibrated probabilities that frequently express high confidence on ambiguous cases. Temperature scaling calibrates probabilities against empirical ground truth, and cases with confidence below 70% automatically trigger mandatory specialist review.',
+                q: 'How does confidence calibration protect patient safety?',
+                a: 'Standard neural networks can be overconfident on ambiguous or borderline scans. Confidence calibration evaluates prediction certainty, and cases falling below clinical thresholds automatically trigger mandatory specialist review rather than generating autonomous referrals.',
               },
               {
                 id: '04',

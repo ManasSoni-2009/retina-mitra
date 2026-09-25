@@ -51,7 +51,7 @@ function ScreeningInner() {
     'Vessel Segmentation: Extracting morphological vascular tree...',
     'EfficientNet-B0: Computing 5-class ICDR severity...',
     'Grad-CAM: Generating spatial attention gradient hooks...',
-    'Temperature Scaling: Calibrating epistemic uncertainty...',
+    'Confidence Calibration: Evaluating prediction certainty & triage threshold...',
   ];
 
   const handleStartScan = (dc?: DemoCaseConfig) => {
@@ -228,10 +228,10 @@ function ScreeningInner() {
             <div className="flex justify-between items-end mb-4 sm:mb-6">
               <div>
                 <h2 className="text-lg sm:text-xl font-bold uppercase tracking-tight">
-                  Or Test Verified Clinical Benchmarks
+                  Or Test Demonstration Cases
                 </h2>
                 <p className="font-mono text-[11px] sm:text-xs text-[var(--ink-soft)] mt-0.5">
-                  Select a calibrated case with known lesions &amp; clinical severity:
+                  Select a representative case with documented findings &amp; clinical severity:
                 </p>
               </div>
               <span className="font-mono text-xs uppercase font-bold text-[var(--ink)] hidden sm:inline">

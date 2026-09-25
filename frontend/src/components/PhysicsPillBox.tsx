@@ -12,19 +12,19 @@ interface PillItem {
 }
 
 const PILLS: PillItem[] = [
-  { id: '1', label: '✦ OpenCV Focus Variance', variant: 'accent', dot: true },
-  { id: '2', label: 'EfficientNet-B0 Backbone', variant: 'paper' },
-  { id: '3', label: 'Grad-CAM Attention Heatmap', variant: 'outline', dot: true },
-  { id: '4', label: 'Frangi Vessel Extraction', variant: 'paper' },
-  { id: '5', label: 'Laplacian Sharpness Filter', variant: 'outline' },
-  { id: '6', label: 'Temperature-Scaled Confidence', variant: 'accent', dot: true },
-  { id: '7', label: 'Epistemic Uncertainty Abstention', variant: 'paper' },
-  { id: '8', label: 'Human Specialist Override', variant: 'accent', dot: true },
-  { id: '9', label: 'Bilingual Reports (EN / MR)', variant: 'paper' },
-  { id: '10', label: 'Rural Offline IndexedDB Sync', variant: 'outline' },
-  { id: '11', label: 'Zero Demo Mode Guarantee', variant: 'accent' },
-  { id: '12', label: 'Monte Carlo Dropout', variant: 'paper' },
-  { id: '13', label: 'Sub-second GPU Inference', variant: 'outline', dot: true },
+  { id: '1', label: '✦ Image Quality Gate', variant: 'accent', dot: true },
+  { id: '2', label: 'Deep Learning Classifier', variant: 'paper' },
+  { id: '3', label: 'Grad-CAM Attention Overlays', variant: 'outline', dot: true },
+  { id: '4', label: 'Retinal Vessel Mapping', variant: 'paper' },
+  { id: '5', label: 'Focus & Glare Filters', variant: 'outline' },
+  { id: '6', label: 'Confidence Calibration', variant: 'accent', dot: true },
+  { id: '7', label: 'Automated Uncertainty Triage', variant: 'paper' },
+  { id: '8', label: 'Human Specialist Oversight', variant: 'accent', dot: true },
+  { id: '9', label: 'Bilingual Referral Slips (EN / MR)', variant: 'paper' },
+  { id: '10', label: 'Rural Low-Connectivity Sync', variant: 'outline' },
+  { id: '11', label: 'Capture → Check → Screen → Review', variant: 'accent' },
+  { id: '12', label: 'Offline-First Local Storage', variant: 'paper' },
+  { id: '13', label: 'Fast Inference Pipeline', variant: 'outline', dot: true },
   { id: '14', label: 'Non-Prescriptive Safe Output', variant: 'paper' },
 ];
 

@@ -20,36 +20,36 @@ const CASES: ClinicalCase[] = [
     id: 'case-01',
     title: 'Proliferative DR & Neovascularization',
     icdrGrade: 'Grade 4 (PDR)',
-    confidence: '96.8%',
+    confidence: 'High',
     finding: 'Active disc neovascularization, intraretinal hemorrhages, preretinal fibrosis.',
-    tags: ['Frangi Vessels', 'High Urgency', 'Grad-CAM Verified'],
+    tags: ['Vessel Mapping', 'High Urgency', 'Grad-CAM Attention'],
     gradient: 'from-[#1A0B0B] via-[#2A1010] to-[#0E0E0C]',
   },
   {
     id: 'case-02',
     title: 'Moderate NPDR & Hard Exudate Ring',
     icdrGrade: 'Grade 2 (Moderate)',
-    confidence: '91.2%',
+    confidence: 'Moderate',
     finding: 'Circinate hard exudate rings temporal to fovea with microaneurysms.',
-    tags: ['Macular Edema Risk', 'ECE 0.038', 'Bilingual Slip'],
+    tags: ['Macular Edema Risk', 'Calibrated', 'Bilingual Slip'],
     gradient: 'from-[#141B10] via-[#1F2C18] to-[#0E0E0C]',
   },
   {
     id: 'case-03',
     title: 'Severe NPDR & Venous Beading',
     icdrGrade: 'Grade 3 (Severe)',
-    confidence: '93.5%',
+    confidence: 'High',
     finding: 'Prominent 4-quadrant hemorrhages, 2-quadrant venous beading, IRMA lesions.',
-    tags: ['4:2:1 Rule Met', 'High Attention', 'Referral Required'],
+    tags: ['4:2:1 Rule Criteria', 'High Attention', 'Referral Required'],
     gradient: 'from-[#10172A] via-[#1E293B] to-[#0E0E0C]',
   },
   {
     id: 'case-04',
     title: 'Healthy Retinal Fundus (Clear)',
     icdrGrade: 'Grade 0 (No DR)',
-    confidence: '99.4%',
+    confidence: 'High',
     finding: 'Crisp optic margins, healthy cup-to-disc ratio (0.3), clear macula.',
-    tags: ['OpenCV Pass: 100%', 'Annual Recall', 'Zero Lesions'],
+    tags: ['Quality: Pass', 'Annual Recall', 'No DR Detected'],
     gradient: 'from-[#181810] via-[#2D2C1B] to-[#0E0E0C]',
   },
 ];
@@ -69,14 +69,14 @@ export function ParallaxCaseGrid() {
           <div>
             <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-[var(--ink-soft)] mb-1 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[var(--ink)]" />
-              Verified Clinical Benchmarks
+              Demonstration Cases
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.04em] text-[var(--ink)] leading-none uppercase">
-              Diagnostic Precision
+              Clinical Screening Scenarios
             </h2>
           </div>
           <p className="max-w-md text-xs sm:text-sm text-[var(--ink-soft)] font-medium leading-relaxed">
-            Real patient fundus acquisitions evaluated against the International Clinical Diabetic Retinopathy (ICDR) scale with complete Grad-CAM explainability.
+            Representative Fundus Cases evaluated against the International Clinical Diabetic Retinopathy (ICDR) scale with complete explainability overlays.
           </p>
         </div>
 

@@ -13,7 +13,7 @@ export function TactileVisionHero() {
       {/* ─── 2. FLOATING SATELLITE CHIP: TOP RIGHT (ROTATED +3 DEG) ─── */}
       <div className="absolute -top-5 sm:-top-6 right-1 sm:-right-4 z-20 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-2xl border-[2px] border-[var(--ink)] bg-white text-[var(--ink)] shadow-[4px_4px_0_var(--ink)] font-mono text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider flex items-center gap-2 rotate-[3.5deg] animate-in fade-in duration-500">
         <span className="w-2 h-2 rounded-full bg-[var(--ok)] animate-pulse" />
-        <span>OpenCV Gate: 98% Pass</span>
+        <span>Image Quality Gate</span>
       </div>
 
       {/* ─── 3. MAIN TACTILE SHOWCASE CARD ─── */}
@@ -24,11 +24,11 @@ export function TactileVisionHero() {
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-[var(--ink)]" />
             <span className="font-mono text-xs font-bold tracking-widest uppercase text-[var(--ink)]">
-              Retina-Mitra Diagnostic Core
+              Retina-Mitra Decision Support
             </span>
           </div>
           <span className="px-2.5 py-0.5 rounded-full border border-[var(--ink)] bg-[var(--bg)] font-mono text-[10px] font-extrabold uppercase text-[var(--ink)]">
-            v4.2 HITL
+            HITL Verified
           </span>
         </div>
 
@@ -141,7 +141,7 @@ export function TactileVisionHero() {
           </div>
 
           <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded-md bg-white border border-[var(--ink)] text-[var(--ink)] font-mono text-[9px] font-bold shadow-sm">
-            CALIBRATED: 99.4%
+            CONFIDENCE CALIBRATION
           </div>
         </div>
 
@@ -149,15 +149,15 @@ export function TactileVisionHero() {
         <div className="grid grid-cols-3 gap-2.5 mt-5">
           <div className="p-2.5 rounded-xl border border-[var(--ink)] bg-white text-center shadow-[2px_2px_0_var(--ink)]">
             <div className="font-mono text-[9px] text-[var(--ink-mute)] uppercase font-semibold">ICDR Grading</div>
-            <div className="font-extrabold text-xs text-[var(--ink)] mt-0.5">5-Class ML</div>
+            <div className="font-extrabold text-xs text-[var(--ink)] mt-0.5">5-Class Triage</div>
           </div>
           <div className="p-2.5 rounded-xl border border-[var(--ink)] bg-white text-center shadow-[2px_2px_0_var(--ink)]">
-            <div className="font-mono text-[9px] text-[var(--ink-mute)] uppercase font-semibold">Inference</div>
-            <div className="font-extrabold text-xs text-[var(--ink)] mt-0.5">&lt;180ms GPU</div>
+            <div className="font-mono text-[9px] text-[var(--ink-mute)] uppercase font-semibold">Pipeline</div>
+            <div className="font-extrabold text-xs text-[var(--ink)] mt-0.5">Fast Inference</div>
           </div>
           <div className="p-2.5 rounded-xl border border-[var(--ink)] bg-white text-center shadow-[2px_2px_0_var(--ink)]">
             <div className="font-mono text-[9px] text-[var(--ink-mute)] uppercase font-semibold">Oversight</div>
-            <div className="font-extrabold text-xs text-[var(--ok)] mt-0.5">100% HITL</div>
+            <div className="font-extrabold text-xs text-[var(--ok)] mt-0.5">Specialist HITL</div>
           </div>
         </div>
       </div>
@@ -165,7 +165,7 @@ export function TactileVisionHero() {
       {/* ─── 5. FLOATING SATELLITE CHIP: BOTTOM LEFT (ROTATED -4 DEG) ─── */}
       <div className="absolute -bottom-4 sm:-bottom-5 left-1 sm:-left-4 z-20 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-2xl border-[2px] border-[var(--ink)] bg-[var(--ink)] text-[var(--accent)] shadow-[4px_4px_0_var(--ink)] font-mono text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider flex items-center gap-2 rotate-[-3.5deg] animate-in fade-in duration-500">
         <ShieldCheck className="w-3.5 h-3.5 text-[var(--ok)]" />
-        <span>Explainable Grad-CAM Heatmap</span>
+        <span>Explainable Visual Attention</span>
       </div>
     </div>
   );

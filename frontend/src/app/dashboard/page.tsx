@@ -170,10 +170,10 @@ export default function DashboardPage() {
         <div className="flex justify-between items-center pb-6 border-b border-[var(--ink)]/20 mb-6">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--ink)]">
-              Recent Patient Screenings
+              Recent Screening Queue
             </h2>
             <p className="font-mono text-xs text-[var(--ink-soft)] mt-1">
-              Live intake log from camp cameras &amp; hospital endpoints
+              Intake and triage record from camp cameras and clinic endpoints
             </p>
           </div>
           <Link
@@ -191,18 +191,18 @@ export default function DashboardPage() {
           {[
             {
               id: 'RM-9841',
-              quality: 'PASS (98%)',
+              quality: 'PASS (Gradable)',
               grade: 'Level 2: Moderate NPDR',
-              conf: '92.4%',
+              conf: 'Calibrated',
               status: 'Specialist Sign-Off',
               statusOk: true,
             },
             {
               id: 'RM-9842',
-              quality: 'PASS (94%)',
+              quality: 'PASS (Gradable)',
               grade: 'Level 0: No DR',
-              conf: '99.1%',
-              status: 'Autonomous Clear',
+              conf: 'Calibrated',
+              status: 'Clear',
               statusOk: true,
             },
             {
@@ -215,9 +215,9 @@ export default function DashboardPage() {
             },
             {
               id: 'RM-9844',
-              quality: 'PASS (91%)',
+              quality: 'PASS (Gradable)',
               grade: 'Level 4: Proliferative DR',
-              conf: '96.8%',
+              conf: 'Calibrated',
               status: 'Urgent Referral',
               statusOk: true,
             },
@@ -273,18 +273,18 @@ export default function DashboardPage() {
               {[
                 {
                   id: 'RM-9841',
-                  quality: 'PASS (98%)',
+                  quality: 'PASS (Gradable)',
                   grade: 'Level 2: Moderate NPDR',
-                  conf: '92.4%',
+                  conf: 'Calibrated',
                   status: 'Specialist Sign-Off',
                   statusOk: true,
                 },
                 {
                   id: 'RM-9842',
-                  quality: 'PASS (94%)',
+                  quality: 'PASS (Gradable)',
                   grade: 'Level 0: No DR',
-                  conf: '99.1%',
-                  status: 'Autonomous Clear',
+                  conf: 'Calibrated',
+                  status: 'Clear',
                   statusOk: true,
                 },
                 {
@@ -297,9 +297,9 @@ export default function DashboardPage() {
                 },
                 {
                   id: 'RM-9844',
-                  quality: 'PASS (91%)',
+                  quality: 'PASS (Gradable)',
                   grade: 'Level 4: Proliferative DR',
-                  conf: '96.8%',
+                  conf: 'Calibrated',
                   status: 'Urgent Referral',
                   statusOk: true,
                 },

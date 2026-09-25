@@ -102,7 +102,7 @@ export default function ReviewPage() {
                       <span>
                         {typeof s.confidence === 'object'
                           ? s.confidence.humanReviewReason
-                          : 'Epistemic uncertainty threshold exceeded'}
+                          : 'Confidence threshold requires specialist review'}
                       </span>
                     </div>
 
@@ -159,7 +159,7 @@ export default function ReviewPage() {
                             <AlertTriangle className="w-3 h-3 text-amber-600" />
                             {typeof s.confidence === 'object'
                               ? s.confidence.humanReviewReason
-                              : 'Epistemic uncertainty threshold exceeded'}
+                              : 'Confidence threshold requires specialist review'}
                           </span>
                         </td>
                         <td className="py-4 px-4 text-right">
