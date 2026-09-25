@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { sound } from '@/lib/sound';
 
 export function CustomCursor() {
   const outerRef = useRef<HTMLDivElement>(null);
@@ -145,7 +144,6 @@ export function CustomCursor() {
 
       const hot = target.closest(HOT_SELECTOR) as HTMLElement | null;
       if (hot) {
-        sound.playHover(520);
         const customLabel = hot.getAttribute('data-cursor-label');
         if (customLabel) {
           setMode('label', customLabel);

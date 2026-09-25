@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Sparkles, RotateCcw } from 'lucide-react';
-import { sound } from '@/lib/sound';
 
 interface PillItem {
   id: string;
@@ -51,7 +50,6 @@ export function PhysicsPillBox() {
 
   // Scatter toolkit function (re-drop pills with kinetic upward bursts)
   const handleScatter = () => {
-    sound.playClick(880);
     const bodies = bodiesRef.current;
     bodies.forEach((b) => {
       b.isSleeping = false;
@@ -76,15 +74,6 @@ export function PhysicsPillBox() {
     const bounce = 0.55;
     const airFriction = 0.985;
     const groundFriction = 0.92;
-    let lastSoundTime = 0;
-
-    const playCollisionSound = (pitch = 440) => {
-      const now = performance.now();
-      if (now - lastSoundTime > 120) {
-        lastSoundTime = now;
-        sound.playHover(pitch);
-      }
-    };
 
     // Initialize positions staggered across top half
     PILLS.forEach((p, idx) => {
@@ -118,7 +107,6 @@ export function PhysicsPillBox() {
 
       const onPointerDown = (e: PointerEvent) => {
         e.preventDefault();
-        sound.playClick(750);
         body.isDragging = true;
         body.isSleeping = false;
         el.setPointerCapture(e.pointerId);
@@ -157,8 +145,6 @@ export function PhysicsPillBox() {
           body.vx = Math.max(-28, Math.min(28, (last.x - first.x) / dt * 0.035));
           body.vy = Math.max(-28, Math.min(28, (last.y - first.y) / dt * 0.035));
         }
-
-        sound.playHover(560);
       };
 
       el.addEventListener('pointerdown', onPointerDown);
@@ -229,7 +215,6 @@ export function PhysicsPillBox() {
           } else {
             b.vy = -b.vy * bounce;
             b.vx *= 0.92;
-            playCollisionSound(380);
           }
         }
 
@@ -237,21 +222,18 @@ export function PhysicsPillBox() {
         if (b.y <= 0) {
           b.y = 0;
           b.vy = Math.abs(b.vy) * bounce;
-          playCollisionSound(460);
         }
 
         // Left wall
         if (b.x <= 0) {
           b.x = 0;
           b.vx = Math.abs(b.vx) * bounce;
-          playCollisionSound(420);
         }
 
         // Right wall
         if (b.x + b.w >= cw) {
           b.x = cw - b.w;
           b.vx = -Math.abs(b.vx) * bounce;
-          playCollisionSound(420);
         }
 
         b.el.style.transform = `translate3d(${b.x.toFixed(1)}px, ${b.y.toFixed(1)}px, 0)`;

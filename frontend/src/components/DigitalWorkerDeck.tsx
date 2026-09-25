@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { sound } from '@/lib/sound';
 
 interface WorkerPass {
   id: string;
@@ -66,7 +65,6 @@ export function DigitalWorkerDeck() {
   const [activeIdx, setActiveIdx] = useState(0);
 
   const handleNextCard = () => {
-    sound.playFlip();
     setActiveIdx((prev) => (prev + 1) % WORKERS.length);
   };
 

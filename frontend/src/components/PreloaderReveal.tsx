@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { sound } from '@/lib/sound';
 
 export function PreloaderReveal() {
   const [isDone, setIsDone] = useState(false);
@@ -20,10 +19,6 @@ export function PreloaderReveal() {
       setIsDone(true);
       return;
     }
-
-    try {
-      sound.playClick(880);
-    } catch (_) {}
 
     // Quick, punchy circular aperture opening animation (~0.6s)
     const tl = gsap.timeline({

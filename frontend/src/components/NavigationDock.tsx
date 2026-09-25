@@ -94,7 +94,7 @@ export function NavigationDock() {
             })}
           </nav>
 
-          {/* Controls: Theme Cycler, Sound Mute, High-Visibility Intake CTA */}
+          {/* Controls: Theme Cycler, High-Visibility Intake CTA */}
           <div className="pointer-events-auto flex items-center gap-2">
             {/* Theme Switcher Pill */}
             <button
